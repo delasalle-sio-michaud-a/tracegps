@@ -34,7 +34,7 @@
 // début de la classe Outils
 class Outils
 {
-
+    // TEST
     // La fonction convertirEnDateFR($laDate) reçoit une date US (aaaa-mm-jj) et fournit sa conversion au format Français (jj/mm/aaaa)
 	// par exemple, le paramètre '2007-05-16' donnera '16/05/2007'
     // Dernière mise à jour : 13/7/2021 par dPlanchet

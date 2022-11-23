@@ -9,9 +9,14 @@ include_once ('Point.class.php');
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>Test de la classe Point</title>
-	<style type="text/css">body {font-family: Arial, Helvetica, sans-serif; font-size: small;}</style>
+<meta charset="utf-8">
+<title>Test de la classe Point</title>
+<style type="text/css">
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: small;
+}
+</style>
 </head>
 <body>
 
@@ -20,7 +25,7 @@ echo "<h3>Test de la classe Point</h3>";
 
 // appel du constructeur et tests des accesseurs (get)
 $uneLatitude = 48.5;
-$uneLongitude = -1.6;
+$uneLongitude = - 1.6;
 $uneAltitude = 50;
 $unPoint1 = new Point($uneLatitude, $uneLongitude, $uneAltitude);
 
@@ -33,7 +38,7 @@ echo ('<br>');
 // tests des mutateurs (set)
 $unPoint2 = new Point(0, 0, 0);
 $unPoint2->setLatitude(48.51);
-$unPoint2->setLongitude(-1.6);
+$unPoint2->setLongitude(- 1.6);
 $unPoint2->setAltitude(200);
 
 echo "<h4>objet unPoint2 : </h4>";

@@ -3,16 +3,20 @@
 // fichier : modele/Utilisateur.test.php
 // Rôle : test de la classe Utilisateur.class.php
 // Dernière mise à jour : 18/7/2021 par dPlanchet
-
 include_once ('Utilisateur.class.php');
 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>Test de la classe Utilisateur</title>
-	<style type="text/css">body {font-family: Arial, Helvetica, sans-serif; font-size: small;}</style>
+<meta charset="utf-8">
+<title>Test de la classe Utilisateur</title>
+<style type="text/css">
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: small;
+}
+</style>
 </head>
 <body>
 

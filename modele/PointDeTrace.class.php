@@ -4,24 +4,39 @@
 // Rôle : la classe PointDeTrace représente un point de passage sur un parcours
 // Dernière mise à jour : 9/7/2021 par dPlanchet
 include_once ('Point.class.php');
+
 class PointDeTrace extends Point
 {
+
     // ------------------------------------------------------------------------------------------------------
     // ---------------------------------- Attributs privés de la classe -------------------------------------
     // ------------------------------------------------------------------------------------------------------
-    
-    private $idTrace; // identifiant de la trace
-    private $id; // identifiant relatif du point dans la trace
-    private $dateHeure; // date et heure du passage au point
-    private $rythmeCardio; // rythme cardiaque (en bpm : battements par minute)
-    private $tempsCumule; // temps cumulé depuis le départ (en secondes)
-    private $distanceCumulee; // distance cumulée depuis le départ (en Km)
-    private $vitesse; // vitesse instantanée au point de passage (en Km/h)
-    
+    private $idTrace;
+
+    // identifiant de la trace
+    private $id;
+
+    // identifiant relatif du point dans la trace
+    private $dateHeure;
+
+    // date et heure du passage au point
+    private $rythmeCardio;
+
+    // rythme cardiaque (en bpm : battements par minute)
+    private $tempsCumule;
+
+    // temps cumulé depuis le départ (en secondes)
+    private $distanceCumulee;
+
+    // distance cumulée depuis le départ (en Km)
+    private $vitesse;
+
+    // vitesse instantanée au point de passage (en Km/h)
+
     // ------------------------------------------------------------------------------------------------------
     // ----------------------------------------- Constructeur -----------------------------------------------
     // ------------------------------------------------------------------------------------------------------
-    
+
     // Constructeur avec 10 paramètres :
     // $unIdTrace : identifiant de la trace
     // $unId : identifiant relatif du point dans la trace
@@ -33,48 +48,100 @@ class PointDeTrace extends Point
     // $unTempsCumule : temps cumulé depuis le départ(en secondes)
     // $uneDistanceCumulee : distance cumulée depuis le départ (en Km)
     // $uneVitesse : vitesse instantanée, calculée entre le point précédent et le point suivant (en Km/h)
-    public function __construct($unIdTrace, $unID, $uneLatitude, $uneLongitude, $uneAltitude,
-        $uneDateHeure, $unRythmeCardio, $unTempsCumule, $uneDistanceCumulee, $uneVitesse) {
-            // appelle le constructeur de la classe mère avec 3 paramètres
-            parent::__construct($uneLatitude, $uneLongitude, $uneAltitude);
-            // initialise les nouveaux attributs
-             $this->idTrace = $unIdTrace;
-             $this->id = $unID;
-             $this->dateHeure = $uneDateHeure;
-             $this->rythmeCardio = $unRythmeCardio;
-             $this->tempsCumule = $unTempsCumule;
-             $this->distanceCumulee = $uneDistanceCumulee;
-             $this->vitesse = $uneVitesse;
+    public function __construct($unIdTrace, $unID, $uneLatitude, $uneLongitude, $uneAltitude, $uneDateHeure, $unRythmeCardio, $unTempsCumule, $uneDistanceCumulee, $uneVitesse)
+    {
+        // appelle le constructeur de la classe mère avec 3 paramètres
+        parent::__construct($uneLatitude, $uneLongitude, $uneAltitude);
+        // initialise les nouveaux attributs
+        $this->idTrace = $unIdTrace;
+        $this->id = $unID;
+        $this->dateHeure = $uneDateHeure;
+        $this->rythmeCardio = $unRythmeCardio;
+        $this->tempsCumule = $unTempsCumule;
+        $this->distanceCumulee = $uneDistanceCumulee;
+        $this->vitesse = $uneVitesse;
     }
+
     // ------------------------------------------------------------------------------------------------------
     // ---------------------------------------- Getters et Setters ------------------------------------------
     // ------------------------------------------------------------------------------------------------------
-    
-    public function getIdTrace(){return $this->idTrace;}
-    public function setIdTrace($unIdTrace) {$this->idTrace = $unIdTrace;}
-    
-    public function getId() {return $this->id;}
-    public function setId($unId) {$this->id = $unId;}
-    
-    public function getDateHeure() {return $this->dateHeure;}
-    public function setDateHeure($uneDateHeure) {$this->dateHeure = $uneDateHeure;}
-    
-    public function getRythmeCardio() {return $this->rythmeCardio;}
-    public function setRythmeCardio($unRythmeCardio) {$this->rythmeCardio = $unRythmeCardio;}
-    
-    public function getTempsCumule() {return $this->tempsCumule;}
-    public function setTempsCumule($unTempsCumule) {$this->tempsCumule = $unTempsCumule;}
-    public function getDistanceCumulee() {return $this->distanceCumulee;}
-    public function setDistanceCumulee($uneDistanceCumulee) {$this->distanceCumulee = $uneDistanceCumulee;}
-    
-    public function getVitesse() {return $this->vitesse;}
-    public function setVitesse($uneVitesse) {$this->vitesse = $uneVitesse;}
+    public function getIdTrace()
+    {
+        return $this->idTrace;
+    }
+
+    public function setIdTrace($unIdTrace)
+    {
+        $this->idTrace = $unIdTrace;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($unId)
+    {
+        $this->id = $unId;
+    }
+
+    public function getDateHeure()
+    {
+        return $this->dateHeure;
+    }
+
+    public function setDateHeure($uneDateHeure)
+    {
+        $this->dateHeure = $uneDateHeure;
+    }
+
+    public function getRythmeCardio()
+    {
+        return $this->rythmeCardio;
+    }
+
+    public function setRythmeCardio($unRythmeCardio)
+    {
+        $this->rythmeCardio = $unRythmeCardio;
+    }
+
+    public function getTempsCumule()
+    {
+        return $this->tempsCumule;
+    }
+
+    public function setTempsCumule($unTempsCumule)
+    {
+        $this->tempsCumule = $unTempsCumule;
+    }
+
+    public function getDistanceCumulee()
+    {
+        return $this->distanceCumulee;
+    }
+
+    public function setDistanceCumulee($uneDistanceCumulee)
+    {
+        $this->distanceCumulee = $uneDistanceCumulee;
+    }
+
+    public function getVitesse()
+    {
+        return $this->vitesse;
+    }
+
+    public function setVitesse($uneVitesse)
+    {
+        $this->vitesse = $uneVitesse;
+    }
+
     // ------------------------------------------------------------------------------------------------------
     // ---------------------------------------- Méthodes d'instances ----------------------------------------
     // ------------------------------------------------------------------------------------------------------
-    
+
     // Fournit une chaine contenant toutes les données de l'objet
-    public function toString() {
+    public function toString()
+    {
         $msg = "IdTrace : " . $this->getIdTrace() . "<br>";
         $msg .= "Id : " . $this->getId() . "<br>";
         $msg .= parent::toString();
@@ -88,20 +155,17 @@ class PointDeTrace extends Point
         $msg .= "Vitesse (Km/h) : " . $this->vitesse . "<br>";
         return $msg;
     }
-    
+
     // Méthode fournissant le temps cumulé depuis le départ (sous la forme d'une chaine "hh:mm:ss")
     public function getTempsCumuleEnChaine()
     {
-        $heures = PointDeTrace::getTempsCumule()/3600;
-        $secondes = PointDeTrace::getTempsCumule() - ($heures*3600);
-        $minutes = $secondes /60;
+        $heures = PointDeTrace::getTempsCumule() / 3600;
+        $secondes = PointDeTrace::getTempsCumule() - ($heures * 3600);
+        $minutes = $secondes / 60;
         $secondes = $secondes - ($minutes * 60);
-        
-        return sprintf("%02d",$heures) . ":" . sprintf("%02d",$minutes) . ":" . sprintf("%02d",$secondes);
+
+        return sprintf("%02d", $heures) . ":" . sprintf("%02d", $minutes) . ":" . sprintf("%02d", $secondes);
     }
-    
-    
-    
 } // fin de la classe PointDeTrace
 // ATTENTION : on ne met pas de balise de fin de script pour ne pas prendre le risque
 // d'enregistrer d'espaces après la balise de fin de script !!!!!!!!!!!!

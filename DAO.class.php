@@ -344,7 +344,7 @@ class DAO
     
     
     // --------------------------------------------------------------------------------------
-    // début de la zone attribuée au développeur 1 (xxxxxxxxxxxxxxxxxxxx) : lignes 350 à 549
+    // début de la zone attribuée au développeur 1 (delasalle-sio-michaud-a) : lignes 350 à 549
     // --------------------------------------------------------------------------------------
     
 
@@ -544,7 +544,7 @@ class DAO
     
     
     // --------------------------------------------------------------------------------------
-    // début de la zone attribuée au développeur 2 (xxxxxxxxxxxxxxxxxxxx) : lignes 550 à 749
+    // début de la zone attribuée au développeur 2 (delasalle-sio-kergoat-m) : lignes 550 à 749
     // --------------------------------------------------------------------------------------
     
 
@@ -744,7 +744,7 @@ class DAO
     
     
     // --------------------------------------------------------------------------------------
-    // début de la zone attribuée au développeur 3 (xxxxxxxxxxxxxxxxxxxx) : lignes 750 à 949
+    // début de la zone attribuée au développeur 3 (delasalle-sio-waechter-a) : lignes 750 à 949
     // --------------------------------------------------------------------------------------
     
     
@@ -944,7 +944,7 @@ class DAO
     
    
     // --------------------------------------------------------------------------------------
-    // début de la zone attribuée au développeur 4 (xxxxxxxxxxxxxxxxxxxx) : lignes 950 à 1150
+    // début de la zone attribuée au développeur 4 (delasalle-sio-burgot-m) : lignes 950 à 1150
     // --------------------------------------------------------------------------------------
     
     

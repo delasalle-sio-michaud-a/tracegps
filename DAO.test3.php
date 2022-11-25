@@ -38,6 +38,19 @@ echo "<h3>Test de xxxxxxxxxxxxxxxxx : </h3>";
 
 
 
+// test de la méthode getLesPointsDeTrace ---------------------------------------------------------
+// modifié par dP le 13/8/2021
+echo "<h3>Test de getLesPointsDeTrace : </h3>";
+$lesPoints = $dao->getLesPointsDeTrace(1);
+$nbPoints = sizeof($lesPoints);
+echo "<p>Nombre de points de la trace 1 : " . $nbPoints . "</p>";
+// affichage des points
+foreach ($lesPoints as $unPoint)
+{ echo ($unPoint->toString());
+echo ('<br>');
+}
+
+
 
 
 

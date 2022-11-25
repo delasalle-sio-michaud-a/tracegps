@@ -37,11 +37,11 @@
 
 
 // certaines méthodes nécessitent les classes suivantes :
-include_once ('Utilisateur.class.php');
-include_once ('Trace.class.php');
-include_once ('PointDeTrace.class.php');
-include_once ('Point.class.php');
-include_once ('Outils.class.php');
+include_once ('modele/Utilisateur.class.php');
+include_once ('modele/Trace.class.php');
+include_once ('modele/PointDeTrace.class.php');
+include_once ('modele/Point.class.php');
+include_once ('modele/Outils.class.php');
 
 // inclusion des paramètres de l'application
 include_once ('parametres.php');
@@ -546,8 +546,11 @@ class DAO
     // --------------------------------------------------------------------------------------
     // début de la zone attribuée au développeur 2 (delasalle-sio-kergoat-m) : lignes 550 à 749
     // --------------------------------------------------------------------------------------
-    
 
+    public function getLesUtilisateursAutorisant($idUtilisateur)
+    {
+        
+    }
     
     
     

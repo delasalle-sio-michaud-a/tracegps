@@ -949,7 +949,24 @@ class DAO
     // début de la zone attribuée au développeur 4 (delasalle-sio-burgot-m) : lignes 950 à 1150
     // --------------------------------------------------------------------------------------
     
-    
+      public function existeAdrMailUtilisateur($adrMail){
+        
+        $recupAdrMail = "Select adrMail from tracegps_utilisateurs WHERE adrMail = :mail";
+        $req = $this->cnx->prepare($recupAdrMail);
+        $req->bindValue("mail", $adrMail, PDO::PARAM_STR);
+        // extraction des donn�es
+        $req->execute();
+        if($req->fetch()){
+            // $req->fetch() permet de lire la ligne suivante
+            // si elle vaut 'true' il y a au moins une donn�e sur cette ligne
+            // sinon si elle vaut 'false' la ligne est vide (et il n'y en a pas d'autre derri�re)
+            
+            return true; 
+        }
+        else{
+            return false;
+        }               
+    }  
     
     
     

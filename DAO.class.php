@@ -966,6 +966,37 @@ class DAO
         }               
     }
     
+    public function autoriseAConsulter($idUtilisateur,$idAutorise){
+        
+    }
+    
+   
+    
+    
+    public function supprimerUneTrace($idTrace){
+        $supprimerTrace = "DELETE FROM tracegps_traces WHERE id LIKE :identifiantTrace";
+        $supprimerPoints = "DELETE FROM tracegps_points WHERE idTrace LIKE :identifiantTrace";
+        //Suppression de la trace
+        $reqSupprimerTrace = $this->cnx->prepare($supprimerTrace);
+        $reqSupprimerTrace->bindvalue("identifiantTrace", $idTrace, PDO::PARAM_STR);
+        
+        //Suppresion des points
+        $reqSupprimerPoints = $this->cnx->prepare($supprimerPoints);
+        $reqSupprimerPoints->bindvalue("identifiantTrace", $idTrace, PDO::PARAM_STR);
+        
+        //Exécution des requêtes
+        $reqSupprimerTrace->execute();
+        $reqSupprimerPoints->execute();
+        
+        if ($reqSupprimerTrace && $reqSupprimerPoints){
+            return true;
+        }
+        
+        return false;
+        
+        
+        
+    }
     
     
     

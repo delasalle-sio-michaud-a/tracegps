@@ -1,3 +1,5 @@
+
+
 <?php
 // Projet TraceGPS
 // fichier : modele/DAO.class.php   (DAO : Data Access Object)
@@ -349,7 +351,9 @@ class DAO
     
 
     
-    
+    public function getLesUtilisateursAutorises($idUtilisateur){
+        
+    }
     
     
     
@@ -752,6 +756,69 @@ class DAO
     
     
     
+//    public function getLesPointsDeTrace()
+//    { 
+//        for ($i=0; $i <= sizeof(Trace::getLesPointsDeTrace()); $i++) 
+//            $lesPoints = Trace::getLesPointsDeTrace($i); 
+//            $nbPoints = sizeof($lesPoints);
+//            echo "<p>Nombre de points de la trace " .$i." : " . $nbPoints . "</p>";
+//            // affichage des points
+//            foreach ($lesPoints as $unPoint)
+//            { echo ($unPoint->toString());
+//            echo ('<br>');
+//            }
+            
+            
+            
+            
+//    }
+
+ 
+ 
+ 
+ 
+ public function getLesPointsDeTrace($idTrace)
+    {
+        //         $rtrace = "Select tracegps_traces.id,latitude,longitude,altitude, dateHeure, rythmecardio,(dateFin - dateDebut) as TempsCumule from tracegps_points inner join tracegps_traces on tracegps_points.idTrace = tracegps_traces.id ";
+        
+        
+        
+        $rtrace = "Select idTrace,id,latitude,longitude,altitude, dateHeure, rythmecardio, from tracegps_points ";
+        $rtrace += "where tracegps_traces.id = :idTrace";
+        $rtrace += "order by tracegps_traces.id";
+        
+        $req = $this->cnx->prepare($rtrace);
+        $req->bindValue("idTrace", $idTrace, PDO::PARAM_INT);
+        $req->execute();
+        $uneligne = $req->fetch(PDO::FETCH_OBJ);
+        
+        $lespointsdetrace = array();
+        
+        while ($uneligne) {   
+        
+            $unID = utf8_encode($uneligne -> id);
+            $uneLatitude = utf8_encode($uneligne -> latitude);
+            $uneLongitude = utf8_encode($uneligne -> longitude);
+            $uneAltitude = utf8_encode($uneligne -> altitude);
+            $uneDateHeure = utf8_encode($uneligne -> dateHeure);
+            $unRythmeCardio = utf8_encode($uneligne -> rythmecardio);
+            
+            
+            
+            $unPointDeTrace = new PointDeTrace($idTrace, $unID, $uneLatitude, $uneLongitude, $uneAltitude, $uneDateHeure, $unRythmeCardio, 0, 0, 0);
+            
+            $lespointsdetrace[] = $unPointDeTrace;
+            $uneligne = $req->fetch(PDO::FETCH_OBJ); 
+        }
+        
+        $req->closeCursor();
+        return $lespointsdetrace;
+    
+    }
+    
+    public function getUneTrace(){  }
+    
+    
     
     
     
@@ -946,25 +1013,25 @@ class DAO
     // --------------------------------------------------------------------------------------
     // dÃ©but de la zone attribuÃ©e au dÃ©veloppeur 4 (delasalle-sio-burgot-m) : lignes 950 Ã  1150
     // --------------------------------------------------------------------------------------
-       
-    public function existeAdrMailUtilisateur($adrMail){
+    
+      public function existeAdrMailUtilisateur($adrMail){
         
         $recupAdrMail = "Select adrMail from tracegps_utilisateurs WHERE adrMail = :mail";
         $req = $this->cnx->prepare($recupAdrMail);
         $req->bindValue("mail", $adrMail, PDO::PARAM_STR);
-        // extraction des données
+        // extraction des donnï¿½es
         $req->execute();
         if($req->fetch()){
             // $req->fetch() permet de lire la ligne suivante
-            // si elle vaut 'true' il y a au moins une donnée sur cette ligne
-            // sinon si elle vaut 'false' la ligne est vide (et il n'y en a pas d'autre derrière)
+            // si elle vaut 'true' il y a au moins une donnï¿½e sur cette ligne
+            // sinon si elle vaut 'false' la ligne est vide (et il n'y en a pas d'autre derriï¿½re)
             
             return true; 
         }
         else{
             return false;
         }               
-    }
+    }  
     
     public function autoriseAConsulter($idUtilisateur,$idAutorise){
         
@@ -1037,4 +1104,5 @@ class DAO
 } // fin de la classe DAO
 
 // ATTENTION : on ne met pas de balise de fin de script pour ne pas prendre le risque
-// d'enregistrer d'espaces aprÃ¨s la balise de fin de script !!!!!!!!!!!!
+
+

@@ -854,13 +854,64 @@ class DAO
             
         }
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         public function getUneTrace($idTrace)
         {
             
-            $rtrace = "SELECT idTrace,id,latitude,longitude,altitude, dateHeure, rythmeCardio ";
-            $rtrace .= "FROM tracegps_points INNER JOIN tracegps_traces";
-            $rtrace .=" ON tracegps_points.idTrace = tracegps_traces.id";
-            $rtrace .= " WHERE tracegps_points.idTrace = :idTrace";
+            if(sizeof($this->getLesPointsDeTrace($idTrace)) != 0){
+            
+                $rtrace = "SELECT id,dateDebut,dateFin,terminee,idUtilisateur";
+                $rtrace .= " FROM tracegps_traces";
+                $rtrace .= " WHERE tracegps_traces.id = :idTrace";
+    
+                
+                $req = $this->cnx->prepare($rtrace);
+                $req->bindValue("idTrace", $idTrace, PDO::PARAM_INT);
+                $req->execute();
+                $uneligne = $req->fetch(PDO::FETCH_OBJ);
+    
+                
+                $uneDateDebut =  utf8_encode($uneligne -> dateDebut);
+                $uneDateFin =  utf8_encode($uneligne -> dateFin);
+                $estTerminee = utf8_encode($uneligne -> terminee);                       
+                $unIdUtilisateur = utf8_encode($uneligne -> idUtilisateur);
+                
+                
+                $uneTrace = new Trace($idTrace, $uneDateDebut, $uneDateFin, $estTerminee, $unIdUtilisateur);
+    
+                
+                $lespointsdetrace = $this->getLesPointsDeTrace($idTrace);            
+                foreach ($lespointsdetrace as $unpoint)
+                {
+                    $uneTrace->ajouterPoint($unpoint);
+                }
+                
+                return $uneTrace;
+            }
             
         }
         

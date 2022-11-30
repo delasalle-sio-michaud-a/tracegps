@@ -33,9 +33,27 @@ $dao = new DAO();
 
 // test de la méthode xxxxxxxxxxxxxxxxxxxxxxxxxxx ----------------------------------------------------------
 // modifié par xxxxxxxxxxxxxxxxx le xxxxxxxxxx
-echo "<h3>Test de xxxxxxxxxxxxxxxxx : </h3>";
+echo "<h3>Test de Manon : </h3>";
 // A CONTINUER .........
 
+
+
+
+
+
+
+// test de la méthode getLesUtilisateursAutorisant ------------------------------------------------
+// modifié par dP le 13/8/2021
+echo "<h3>Test de getLesUtilisateursAutorisant(idUtilisateur) : </h3>";
+$lesUtilisateurs = $dao->getLesUtilisateursAutorisant(4);
+$nbReponses = sizeof($lesUtilisateurs);
+echo "<p>Nombre d'utilisateurs autorisant l'utilisateur 4 à voir leurs parcours : " . $nbReponses . "</p>";
+// affichage des utilisateurs
+foreach ($lesUtilisateurs as $unUtilisateur)
+    {   
+        echo ($unUtilisateur->toString());
+        echo ('<br>');
+    }
 
 
 

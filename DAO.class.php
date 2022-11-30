@@ -388,6 +388,31 @@ class DAO
     
         
     
+    public function creeUnPointDeTrace($unPointDeTrace) {
+        // on teste si l'utilisateur existe dÃ©jÃ 
+        if ($this->getUneTrace($unPointDeTrace)) return false;
+        
+        // prÃ©paration de la requÃªte
+        $txt_req1 = "insert into tracegps_utilisateurs (id, latitude, longitude, altitude, dateHeure, ryhtmeCardio)";
+        $txt_req1 .= " values (:id, :latitude, :longitude, :altitude, :dateHeure, :ryhtmeCardio)";
+        $req1 = $this->cnx->prepare($txt_req1);
+        // liaison de la requÃªte et de ses paramÃ¨tres
+        $req1->bindValue("id", utf8_decode($unPointDeTrace->getPseudo()), PDO::PARAM_STR);
+        $req1->bindValue("latitude", utf8_decode(sha1($unPointDeTrace->getMdpsha1())), PDO::PARAM_STR);
+        $req1->bindValue("longitude", utf8_decode($unPointDeTrace->getAdrmail()), PDO::PARAM_STR);
+        $req1->bindValue("altitude", utf8_decode($unPointDeTrace->getNumTel()), PDO::PARAM_STR);
+        $req1->bindValue("dateHeure", utf8_decode($unPointDeTrace->getNiveau()), PDO::PARAM_INT);
+        $req1->bindValue("ryhtmeCardio", utf8_decode($unPointDeTrace->getDateCreation()), PDO::PARAM_STR);
+        // exÃ©cution de la requÃªte
+        $ok = $req1->execute();
+        // sortir en cas d'Ã©chec
+        if ( ! $ok) { return false; }
+        
+        // recherche de l'identifiant (auto_increment) qui a Ã©tÃ© attribuÃ© Ã  la trace
+        $unId = $this->cnx->lastInsertId();
+        $unUtilisateur->setId($unId);
+        return true;
+    }
     
     
     
@@ -1249,5 +1274,4 @@ class DAO
         
         
 } // fin de la classe DAO
-
 // ATTENTION : on ne met pas de balise de fin de script pour ne pas prendre le risque

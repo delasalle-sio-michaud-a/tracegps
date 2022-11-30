@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 // Projet TraceGPS
 // fichier : modele/DAO.test1.php
@@ -61,6 +62,3 @@ foreach ($lesUtilisateurs as $unUtilisateur)
 // ferme la connexion à MySQL :
 unset($dao);
 ?>
-
-</body>
-</html>

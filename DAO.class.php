@@ -783,9 +783,10 @@ class DAO
         
         
         
-        $rtrace = "Select idTrace,id,latitude,longitude,altitude, dateHeure, rythmecardio, from tracegps_points ";
-        $rtrace += "where tracegps_traces.id = :idTrace";
-        $rtrace += "order by tracegps_traces.id";
+        $rtrace = "SELECT idTrace,id,latitude,longitude,altitude, dateHeure, rythmeCardio ";
+        $rtrace .= "FROM tracegps_points";
+        $rtrace .= " WHERE tracegps_points.idTrace = :idTrace";
+        $rtrace .= " ORDER BY tracegps_points.id";
         
         $req = $this->cnx->prepare($rtrace);
         $req->bindValue("idTrace", $idTrace, PDO::PARAM_INT);
@@ -801,7 +802,7 @@ class DAO
             $uneLongitude = utf8_encode($uneligne -> longitude);
             $uneAltitude = utf8_encode($uneligne -> altitude);
             $uneDateHeure = utf8_encode($uneligne -> dateHeure);
-            $unRythmeCardio = utf8_encode($uneligne -> rythmecardio);
+            $unRythmeCardio = utf8_encode($uneligne -> rythmeCardio);
             
             
             
@@ -816,7 +817,15 @@ class DAO
     
     }
     
-    public function getUneTrace(){  }
+    public function getUneTrace($idTrace)
+    {  
+        
+        $rtrace = "SELECT idTrace,id,latitude,longitude,altitude, dateHeure, rythmeCardio ";
+        $rtrace .= "FROM tracegps_points INNER JOIN tracegps_traces";
+        $rtrace .=" ON tracegps_points.idTrace = tracegps_traces.id";
+        $rtrace .= " WHERE tracegps_points.idTrace = :idTrace";
+        
+    }
     
     
     

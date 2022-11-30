@@ -1,5 +1,3 @@
-
-
 <?php
 // Projet TraceGPS
 // fichier : modele/DAO.class.php   (DAO : Data Access Object)
@@ -348,40 +346,47 @@ class DAO
     // --------------------------------------------------------------------------------------
     // début de la zone attribuée au développeur 1 (delasalle-sio-michaud-a) : lignes 350 à 549
     // --------------------------------------------------------------------------------------
+   
     
-
-    
-    public function getLesUtilisateursAutorises($idUtilisateur){
+    public function getLesUtilisateursAutorises($idUtilisateur) {
+        // préparation de la requête de recherche
+        $recupAutorise = "Select id, pseudo, mdpSha1, adrMail, numTel, niveau, dateCreation, nbTraces, dateDerniereTrace";
+        $recupAutorise .= " from tracegps_vue_utilisateurs";
+        $recupAutorise .= " where niveau = 1";
+        $recupAutorise .= "  AND id IN ( SELECT idAutorise FROM tracegps_autorisations WHERE idAutorisant = :idUtilisateur)";
+        $recupAutorise .= " order by pseudo";
         
+        $req = $this->cnx->prepare($recupAutorise);
+        $req->bindValue("idUtilisateur", $idUtilisateur, PDO::PARAM_STR);
+        $req->execute();
+        $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        
+        $lesAutorises = array();
+        
+        // traitement de la réponse
+        while($uneLigne)
+        {
+            // création d'un objet Utilisateur
+            $unId = utf8_encode($uneLigne->id);
+            $unPseudo = utf8_encode($uneLigne->pseudo);
+            $unMdpSha1 = utf8_encode($uneLigne->mdpSha1);
+            $uneAdrMail = utf8_encode($uneLigne->adrMail);
+            $unNumTel = utf8_encode($uneLigne->numTel);
+            $unNiveau = utf8_encode($uneLigne->niveau);
+            $uneDateCreation = utf8_encode($uneLigne->dateCreation);
+            $unNbTraces = utf8_encode($uneLigne->nbTraces);
+            $uneDateDerniereTrace = utf8_encode($uneLigne->dateDerniereTrace);
+            
+            $unUtilisateur = new Utilisateur($unId, $unPseudo, $unMdpSha1, $uneAdrMail, $unNumTel, $unNiveau, $uneDateCreation, $unNbTraces, $uneDateDerniereTrace);
+            $lesAutorises[] = $unUtilisateur;
+            $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        }
+        $req->closeCursor();
+        
+        return $lesAutorises;
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        
     
     
     
@@ -550,8 +555,40 @@ class DAO
     // --------------------------------------------------------------------------------------
     // début de la zone attribuée au développeur 2 (delasalle-sio-kergoat-m) : lignes 550 à 749
     // --------------------------------------------------------------------------------------
-    
-
+    public function getLesUtilisateursAutorisant($idUtilisateur)
+    {
+        $recupAutorisant = "SELECT id, pseudo, mdpSha1, adrMail, numTel, niveau, dateCreation, nbTraces, dateDerniereTrace";             // from tracegps_autorisations JOIN tracegps_utilisateurs ON idAutorisant=id WHERE idAutorise = :autorise";
+        $recupAutorisant = "FROM tracegps_vue_utilisateurs";
+        $recupAutorisant = "WHERE niveau = 1";
+        $recupAutorisant = "AND id IN (SELECT idAutorisant FROM tracegps_autorisations WHERE idAutorise = :idUtilisateur)";
+        $recupAutorisant = "ORDER BY pseudo";
+         
+        $req = $this->cnx->prepare($recupAutorisant);
+        $req->bindValue("idUtilisateur", $idUtilisateur, PDO::PARAM_STR);
+        $req->execute(); 
+        $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        
+        $lesAutorisants = array();
+        
+        while($uneLigne)
+        {   
+            $unId = utf8_encode($uneLigne->id);
+            $unPseudo = utf8_encode($uneLigne->pseudo);
+            $unMdpSha1 = utf8_encode($uneLigne->mdpSha1);
+            $uneAdrMail = utf8_encode($uneLigne->adrMail);
+            $unNumTel = utf8_encode($uneLigne->numTel);
+            $unNiveau = utf8_encode($uneLigne->niveau);
+            $uneDateCreation = utf8_encode($uneLigne->dateCreation);
+            $unNbTraces = utf8_encode($uneLigne->nbTraces);
+            $uneDateDerniereTrace = utf8_encode($uneLigne->dateDerniereTrace);
+            
+            $unUtilisateur = new Utilisateur($unId, $unPseudo, $unMdpSha1, $uneAdrMail, $unNumTel, $unNiveau, $uneDateCreation, $unNbTraces, $uneDateDerniereTrace);
+            $lesAutorisants[] = $unUtilisateur;
+            $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        }
+        $req->closeCursor();
+        return $lesAutorisants;
+    }
     
     
     
@@ -756,319 +793,370 @@ class DAO
     
     
     
-//    public function getLesPointsDeTrace()
-//    { 
-//        for ($i=0; $i <= sizeof(Trace::getLesPointsDeTrace()); $i++) 
-//            $lesPoints = Trace::getLesPointsDeTrace($i); 
-//            $nbPoints = sizeof($lesPoints);
-//            echo "<p>Nombre de points de la trace " .$i." : " . $nbPoints . "</p>";
-//            // affichage des points
-//            foreach ($lesPoints as $unPoint)
-//            { echo ($unPoint->toString());
-//            echo ('<br>');
-//            }
-            
-            
-            
-            
-//    }
-
- 
- 
- 
- 
- public function getLesPointsDeTrace($idTrace)
-    {
-        //         $rtrace = "Select tracegps_traces.id,latitude,longitude,altitude, dateHeure, rythmecardio,(dateFin - dateDebut) as TempsCumule from tracegps_points inner join tracegps_traces on tracegps_points.idTrace = tracegps_traces.id ";
+    //    public function getLesPointsDeTrace()
+    //    {
+    //        for ($i=0; $i <= sizeof(Trace::getLesPointsDeTrace()); $i++)
+        //            $lesPoints = Trace::getLesPointsDeTrace($i);
+        //            $nbPoints = sizeof($lesPoints);
+        //            echo "<p>Nombre de points de la trace " .$i." : " . $nbPoints . "</p>";
+        //            // affichage des points
+        //            foreach ($lesPoints as $unPoint)
+            //            { echo ($unPoint->toString());
+            //            echo ('<br>');
+            //            }
         
         
         
-        $rtrace = "SELECT idTrace,id,latitude,longitude,altitude, dateHeure, rythmeCardio ";
-        $rtrace .= "FROM tracegps_points";
-        $rtrace .= " WHERE tracegps_points.idTrace = :idTrace";
-        $rtrace .= " ORDER BY tracegps_points.id";
         
-        $req = $this->cnx->prepare($rtrace);
-        $req->bindValue("idTrace", $idTrace, PDO::PARAM_INT);
-        $req->execute();
-        $uneligne = $req->fetch(PDO::FETCH_OBJ);
+        //    }
         
-        $lespointsdetrace = array();
         
-        while ($uneligne) {   
         
-            $unID = utf8_encode($uneligne -> id);
-            $uneLatitude = utf8_encode($uneligne -> latitude);
-            $uneLongitude = utf8_encode($uneligne -> longitude);
-            $uneAltitude = utf8_encode($uneligne -> altitude);
-            $uneDateHeure = utf8_encode($uneligne -> dateHeure);
-            $unRythmeCardio = utf8_encode($uneligne -> rythmeCardio);
+        
+        
+        public function getLesPointsDeTrace($idTrace)
+        {
+            //         $rtrace = "Select tracegps_traces.id,latitude,longitude,altitude, dateHeure, rythmecardio,(dateFin - dateDebut) as TempsCumule from tracegps_points inner join tracegps_traces on tracegps_points.idTrace = tracegps_traces.id ";
             
             
             
-            $unPointDeTrace = new PointDeTrace($idTrace, $unID, $uneLatitude, $uneLongitude, $uneAltitude, $uneDateHeure, $unRythmeCardio, 0, 0, 0);
+            $rtrace = "SELECT idTrace,id,latitude,longitude,altitude, dateHeure, rythmeCardio ";
+            $rtrace .= "FROM tracegps_points";
+            $rtrace .= " WHERE tracegps_points.idTrace = :idTrace";
+            $rtrace .= " ORDER BY tracegps_points.id";
             
-            $lespointsdetrace[] = $unPointDeTrace;
-            $uneligne = $req->fetch(PDO::FETCH_OBJ); 
+            $req = $this->cnx->prepare($rtrace);
+            $req->bindValue("idTrace", $idTrace, PDO::PARAM_INT);
+            $req->execute();
+            $uneligne = $req->fetch(PDO::FETCH_OBJ);
+            
+            $lespointsdetrace = array();
+            
+            while ($uneligne) {
+                
+                $unID = utf8_encode($uneligne -> id);
+                $uneLatitude = utf8_encode($uneligne -> latitude);
+                $uneLongitude = utf8_encode($uneligne -> longitude);
+                $uneAltitude = utf8_encode($uneligne -> altitude);
+                $uneDateHeure = utf8_encode($uneligne -> dateHeure);
+                $unRythmeCardio = utf8_encode($uneligne -> rythmeCardio);
+                
+                
+                
+                $unPointDeTrace = new PointDeTrace($idTrace, $unID, $uneLatitude, $uneLongitude, $uneAltitude, $uneDateHeure, $unRythmeCardio, 0, 0, 0);
+                
+                $lespointsdetrace[] = $unPointDeTrace;
+                $uneligne = $req->fetch(PDO::FETCH_OBJ);
+            }
+            
+            $req->closeCursor();
+            return $lespointsdetrace;
+            
         }
         
-        $req->closeCursor();
-        return $lespointsdetrace;
-    
-    }
-    
-    public function getUneTrace($idTrace)
-    {  
-        
-        $rtrace = "SELECT idTrace,id,latitude,longitude,altitude, dateHeure, rythmeCardio ";
-        $rtrace .= "FROM tracegps_points INNER JOIN tracegps_traces";
-        $rtrace .=" ON tracegps_points.idTrace = tracegps_traces.id";
-        $rtrace .= " WHERE tracegps_points.idTrace = :idTrace";
-        
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   
-    // --------------------------------------------------------------------------------------
-    // début de la zone attribuée au développeur 4 (delasalle-sio-burgot-m) : lignes 950 à 1150
-    // --------------------------------------------------------------------------------------
-    
-      public function existeAdrMailUtilisateur($adrMail){
-        
-        $recupAdrMail = "Select adrMail from tracegps_utilisateurs WHERE adrMail = :mail";
-        $req = $this->cnx->prepare($recupAdrMail);
-        $req->bindValue("mail", $adrMail, PDO::PARAM_STR);
-        // extraction des donn�es
-        $req->execute();
-        if($req->fetch()){
-            // $req->fetch() permet de lire la ligne suivante
-            // si elle vaut 'true' il y a au moins une donn�e sur cette ligne
-            // sinon si elle vaut 'false' la ligne est vide (et il n'y en a pas d'autre derri�re)
+        public function getUneTrace($idTrace)
+        {
             
-            return true; 
+            $rtrace = "SELECT idTrace,id,latitude,longitude,altitude, dateHeure, rythmeCardio ";
+            $rtrace .= "FROM tracegps_points INNER JOIN tracegps_traces";
+            $rtrace .=" ON tracegps_points.idTrace = tracegps_traces.id";
+            $rtrace .= " WHERE tracegps_points.idTrace = :idTrace";
+            
         }
-        else{
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        // --------------------------------------------------------------------------------------
+        // début de la zone attribuée au développeur 4 (delasalle-sio-burgot-m) : lignes 950 à 1150
+        // --------------------------------------------------------------------------------------
+        
+        public function existeAdrMailUtilisateur($adrMail){
+            
+            $recupAdrMail = "Select adrMail from tracegps_utilisateurs WHERE adrMail = :mail";
+            $req = $this->cnx->prepare($recupAdrMail);
+            $req->bindValue("mail", $adrMail, PDO::PARAM_STR);
+            // extraction des donn�es
+            $req->execute();
+            if($req->fetch()){
+                // $req->fetch() permet de lire la ligne suivante
+                // si elle vaut 'true' il y a au moins une donn�e sur cette ligne
+                // sinon si elle vaut 'false' la ligne est vide (et il n'y en a pas d'autre derri�re)
+                
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        
+        public function autoriseAConsulter($idUtilisateur,$idAutorise){
+            
+        }
+        
+        
+        
+        //M�thode permettant de supprimer une Trace quelconque
+        public function supprimerUneTrace($idTrace){
+            $supprimerTrace = "DELETE FROM tracegps_traces WHERE id LIKE :identifiantTrace";
+            $supprimerPoints = "DELETE FROM tracegps_points WHERE idTrace LIKE :identifiantTrace";
+            //Suppression de la trace
+            $reqSupprimerTrace = $this->cnx->prepare($supprimerTrace);
+            $reqSupprimerTrace->bindvalue("identifiantTrace", $idTrace, PDO::PARAM_STR);
+            
+            //Suppresion des points
+            $reqSupprimerPoints = $this->cnx->prepare($supprimerPoints);
+            $reqSupprimerPoints->bindvalue("identifiantTrace", $idTrace, PDO::PARAM_STR);
+            
+            //Ex�cution des requ�tes
+            $reqSupprimerTrace->execute();
+            $reqSupprimerPoints->execute();
+            
+            
+            //Condition de v�rification de la bien ex�cution des requ�tes
+            if ($reqSupprimerTrace && $reqSupprimerPoints){
+                return true;
+            }
+            
             return false;
-        }               
-    }  
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-
-    
+            
+            
+            
+        }
+        
+        //M�thode permettant de terminer une trace qui est en cours
+        public function TermineeUneTrace($idTrace){
+            $estTermineeTrace = "UPDATE tracegps_traces SET dateFin=1 WHERE id LIKE :idTrace";
+            $reqEstTermineeTrace=$this->cnx->prepare($estTermineeTrace);
+            $reqEstTermineeTrace->bindvalue("idTrace", $idTrace, PDO::PARAM_STR);
+            $reqEstTermineeTrace->execute();
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 } // fin de la classe DAO
 
 // ATTENTION : on ne met pas de balise de fin de script pour ne pas prendre le risque
-
-

@@ -388,7 +388,31 @@ class DAO
     
         
     
-    
+    public function creeUnPointDeTrace($unPointDeTrace) {
+        // on teste si l'utilisateur existe dÃ©jÃ 
+        if ($this->existePseudoUtilisateur($unUtilisateur->getPseudo())) return false;
+        
+        // prÃ©paration de la requÃªte
+        $txt_req1 = "insert into tracegps_utilisateurs (id, latitude, longitude, altitude, dateHeure, ryhtmeCardio)";
+        $txt_req1 .= " values (:id, :latitude, :longitude, :altitude, :dateHeure, :ryhtmeCardio)";
+        $req1 = $this->cnx->prepare($txt_req1);
+        // liaison de la requÃªte et de ses paramÃ¨tres
+        $req1->bindValue("pseudo", utf8_decode($unUtilisateur->getPseudo()), PDO::PARAM_STR);
+        $req1->bindValue("mdpSha1", utf8_decode(sha1($unUtilisateur->getMdpsha1())), PDO::PARAM_STR);
+        $req1->bindValue("adrMail", utf8_decode($unUtilisateur->getAdrmail()), PDO::PARAM_STR);
+        $req1->bindValue("numTel", utf8_decode($unUtilisateur->getNumTel()), PDO::PARAM_STR);
+        $req1->bindValue("niveau", utf8_decode($unUtilisateur->getNiveau()), PDO::PARAM_INT);
+        $req1->bindValue("dateCreation", utf8_decode($unUtilisateur->getDateCreation()), PDO::PARAM_STR);
+        // exÃ©cution de la requÃªte
+        $ok = $req1->execute();
+        // sortir en cas d'Ã©chec
+        if ( ! $ok) { return false; }
+        
+        // recherche de l'identifiant (auto_increment) qui a Ã©tÃ© attribuÃ© Ã  la trace
+        $unId = $this->cnx->lastInsertId();
+        $unUtilisateur->setId($unId);
+        return true;
+    }
     
     
     
@@ -1160,4 +1184,3 @@ class DAO
 } // fin de la classe DAO
 
 // ATTENTION : on ne met pas de balise de fin de script pour ne pas prendre le risque
->>>>>>> branch 'master' of https://github.com/delasalle-sio-michaud-a/tracegps.git

@@ -851,7 +851,7 @@ class DAO
             
             $req->closeCursor();
             return $lespointsdetrace;
-            
+             
         }
         
         

@@ -33,7 +33,7 @@ $dao = new DAO();
 
 // test de la méthode xxxxxxxxxxxxxxxxxxxxxxxxxxx ----------------------------------------------------------
 // modifié par xxxxxxxxxxxxxxxxx le xxxxxxxxxx
-echo "<h3>Test de xxxxxxxxxxxxxxxxx : </h3>";
+echo "<h3>Test de Alban : </h3>";
 // A CONTINUER .........
 
 

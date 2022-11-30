@@ -46,6 +46,7 @@ $lesUtilisateurs = $dao->getLesUtilisateursAutorises(2);
 $nbReponses = sizeof($lesUtilisateurs);
 echo "<p>Nombre d'utilisateurs autorisés par l'utilisateur 2 : " . $nbReponses . "</p>";
 // affichage des utilisateurs
+
 foreach ($lesUtilisateurs as $unUtilisateur)
 { 
     echo ($unUtilisateur->toString());

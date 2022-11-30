@@ -1016,7 +1016,7 @@ class DAO
     
       public function existeAdrMailUtilisateur($adrMail){
         
-        $recupAdrMail = "Select adrMail from tracegps_utilisateurs WHERE adrMail = :mail";
+        $recupAdrMail = "SELECT adrMail from tracegps_utilisateurs WHERE adrMail = :mail";
         $req = $this->cnx->prepare($recupAdrMail);
         $req->bindValue("mail", $adrMail, PDO::PARAM_STR);
         // extraction des donnï¿½es
@@ -1041,8 +1041,11 @@ class DAO
     
     //Méthode permettant de supprimer une Trace quelconque
     public function supprimerUneTrace($idTrace){
+        
+        //requête permettant de supprimer une trace à partir de l'id de la Trace
         $supprimerTrace = "DELETE FROM tracegps_traces WHERE id LIKE :identifiantTrace";
         $supprimerPoints = "DELETE FROM tracegps_points WHERE idTrace LIKE :identifiantTrace";
+        
         //Suppression de la trace
         $reqSupprimerTrace = $this->cnx->prepare($supprimerTrace);
         $reqSupprimerTrace->bindvalue("identifiantTrace", $idTrace, PDO::PARAM_STR);

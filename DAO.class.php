@@ -572,10 +572,10 @@ class DAO
     public function getLesUtilisateursAutorisant($idUtilisateur)
     {
         $recupAutorisant = "SELECT id, pseudo, mdpSha1, adrMail, numTel, niveau, dateCreation, nbTraces, dateDerniereTrace";             // from tracegps_autorisations JOIN tracegps_utilisateurs ON idAutorisant=id WHERE idAutorise = :autorise";
-        $recupAutorisant = "FROM tracegps_vue_utilisateurs";
-        $recupAutorisant = "WHERE niveau = 1";
-        $recupAutorisant = "AND id IN (SELECT idAutorisant FROM tracegps_autorisations WHERE idAutorise = :idUtilisateur)";
-        $recupAutorisant = "ORDER BY pseudo";
+        $recupAutorisant .= " FROM tracegps_vue_utilisateurs";
+        $recupAutorisant .= " WHERE tracegps_vue_utilisateurs.niveau = 1";
+        $recupAutorisant .= " AND tracegps_vue_utilisateurs.id IN (SELECT idAutorisant FROM tracegps_autorisations WHERE idAutorise = :idUtilisateur)";
+        $recupAutorisant .= " ORDER BY pseudo";
          
         $req = $this->cnx->prepare($recupAutorisant);
         $req->bindValue("idUtilisateur", $idUtilisateur, PDO::PARAM_STR);

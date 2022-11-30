@@ -31,15 +31,53 @@ include_once ('DAO.class.php');
 $dao = new DAO();
 
 
-// test de la mÃ©thode xxxxxxxxxxxxxxxxxxxxxxxxxxx ----------------------------------------------------------
-// modifiÃ© par xxxxxxxxxxxxxxxxx le xxxxxxxxxx
-echo "<h3>Test de xxxxxxxxxxxxxxxxx : </h3>";
+// test de la mÃ©thode existeAdrMailUtilisateur ----------------------------------------------------------
+// modifiÃ© par Mathieu BURGOT le 23/11/2022 
+echo "<h3>Test de existeAdrMailUtilisateur n°1 : </h3>";
 // A CONTINUER .........
 
+echo "<h3>Test de existeAdrMailUtilisateur : </h3>";
+if ($dao->existeAdrMailUtilisateur("admin@gmail.com")) $existe = "oui"; else $existe = "non";
+echo "<p>Existence de l'utilisateur 'admin@gmail.com' : <b>" . $existe . "</b><br>";
+if ($dao->existeAdrMailUtilisateur("delasalle.sio.eleves@gmail.com")) $existe = "oui"; else $existe = "non";
+echo "Existence de l'utilisateur 'delasalle.sio.eleves@gmail.com' : <b>" . $existe . "</b></br>";
+/*
+// test de la méthode autoriseAConsulter ----------------------------------------------------------
+// modifié par dP le 13/8/2021
+echo "<h3>Test de autoriseAConsulter : </h3>";
+if ($dao->autoriseAConsulter(2, 3)) $autorise = "oui"; else $autorise = "non";
+echo "<p>L'utilisateur 2 autorise l'utilisateur 3 : <b>" . $autorise . "</b><br>";
+if ($dao->autoriseAConsulter(3, 2)) $autorise = "oui"; else $autorise = "non";
+echo "<p>L'utilisateur 3 autorise l'utilisateur 2 : <b>" . $autorise . "</b><br>";
+*/
+// test de la méthode supprimerUneTrace -----------------------------------------------------------
+// modifié par dP le 15/8/2021
+echo "<h3>Test de supprimerUneTrace : </h3>";
+$ok = $dao->supprimerUneTrace(22);
+if ($ok) {
+    echo "<p>Trace bien supprimée !</p>";
+}
+else {
+    echo "<p>Echec lors de la suppression de la trace !</p>";
+}
 
-
-
-
+// test des méthodes creerUnPointDeTrace et terminerUneTrace --------------------------------------
+// modifié par dP le 15/8/2021
+echo "<h3>Test de terminerUneTrace : </h3>";
+// on choisit une trace non terminée
+$unIdTrace = 3;
+// on l'affiche
+$laTrace = $dao->getUneTrace($unIdTrace);
+echo "<h4>l'objet laTrace avant l'appel de la méthode terminerUneTrace : </h4>";
+echo ($laTrace->toString());
+echo ('<br>');
+// on la termine
+$dao->terminerUneTrace($unIdTrace);
+// et on l'affiche à nouveau
+$laTrace = $dao->getUneTrace($unIdTrace);
+echo "<h4>l'objet laTrace après l'appel de la méthode terminerUneTrace : </h4>";
+echo ($laTrace->toString());
+echo ('<br>');
 
 
 

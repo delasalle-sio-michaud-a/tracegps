@@ -972,7 +972,7 @@ class DAO
     
    
     
-    
+    //Méthode permettant de supprimer une Trace quelconque
     public function supprimerUneTrace($idTrace){
         $supprimerTrace = "DELETE FROM tracegps_traces WHERE id LIKE :identifiantTrace";
         $supprimerPoints = "DELETE FROM tracegps_points WHERE idTrace LIKE :identifiantTrace";
@@ -988,6 +988,8 @@ class DAO
         $reqSupprimerTrace->execute();
         $reqSupprimerPoints->execute();
         
+        
+        //Condition de vérification de la bien exécution des requêtes 
         if ($reqSupprimerTrace && $reqSupprimerPoints){
             return true;
         }
@@ -997,6 +999,16 @@ class DAO
         
         
     }
+    
+    //Méthode permettant de terminer une trace qui est en cours
+    public function TermineeUneTrace($idTrace){
+        $estTermineeTrace = "UPDATE tracegps_traces SET dateFin=1 WHERE id LIKE :idTrace";
+        $reqEstTermineeTrace=$this->cnx->prepare($estTermineeTrace);
+        $reqEstTermineeTrace->bindvalue("idTrace", $idTrace, PDO::PARAM_STR);
+        $reqEstTermineeTrace->execute();
+    }
+    
+    
     
     
     

@@ -354,7 +354,7 @@ class DAO
 ";
         $req = $this->cnx->prepare($recupAutorise);
         $req->bindValue("autorisant", $idUtilisateur, PDO::PARAM_STR);
-        // extraction des donn�es
+        // extraction des données
         $req->execute();
         
     }
@@ -544,20 +544,42 @@ class DAO
     
     
     
-    
-    
-    
-    
-    
-    
-    
     // --------------------------------------------------------------------------------------
     // début de la zone attribuée au développeur 2 (delasalle-sio-kergoat-m) : lignes 550 à 749
     // --------------------------------------------------------------------------------------
-
     public function getLesUtilisateursAutorisant($idUtilisateur)
     {
+        $recupAutorisant = "SELECT id, pseudo, mdpSha1, adrMail, numTel, niveau, dateCreation, nbTraces, dateDerniereTrace";             // from tracegps_autorisations JOIN tracegps_utilisateurs ON idAutorisant=id WHERE idAutorise = :autorise";
+        $recupAutorisant = "FROM tracegps_vue_utilisateurs";
+        $recupAutorisant = "WHERE niveau = 1";
+        $recupAutorisant = "AND id IN (SELECT idAutorisant FROM tracegps_autorisations WHERE idAutorise = :idUtilisateur)";
+        $recupAutorisant = "ORDER BY pseudo";
+         
+        $req = $this->cnx->prepare($recupAutorisant);
+        $req->bindValue("idUtilisateur", $idUtilisateur, PDO::PARAM_STR);
+        $req->execute(); 
+        $uneLigne = $req->fetch(PDO::FETCH_OBJ);
         
+        $lesAutorisants = array();
+        
+        while($uneLigne)
+        {   
+            $unId = utf8_encode($uneLigne->id);
+            $unPseudo = utf8_encode($uneLigne->pseudo);
+            $unMdpSha1 = utf8_encode($uneLigne->mdpSha1);
+            $uneAdrMail = utf8_encode($uneLigne->adrMail);
+            $unNumTel = utf8_encode($uneLigne->numTel);
+            $unNiveau = utf8_encode($uneLigne->niveau);
+            $uneDateCreation = utf8_encode($uneLigne->dateCreation);
+            $unNbTraces = utf8_encode($uneLigne->nbTraces);
+            $uneDateDerniereTrace = utf8_encode($uneLigne->dateDerniereTrace);
+            
+            $unUtilisateur = new Utilisateur($unId, $unPseudo, $unMdpSha1, $uneAdrMail, $unNumTel, $unNiveau, $uneDateCreation, $unNbTraces, $uneDateDerniereTrace);
+            $lesAutorisants[] = $unUtilisateur;
+            $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        }
+        $req->closeCursor();
+        return $lesAutorisants;
     }
     
     

@@ -335,7 +335,7 @@ class DAO
     // DÃ©veloppeur 4 : lignes 950 Ã  1150
     
     // Quelques conseils pour le travail collaboratif :
-    // avant d'attaquer un cycle de dÃ©veloppement (dÃ©but de sÃ©ance, nouvelle mÃ©thode, ...), faites un Pull pour rÃ©cupÃ©rer 
+    // avant d'attaquer un cycle de dÃ©veloppement (dÃ©but de sÃ©ance, nouvelle méthode, ...), faites un Pull pour rÃ©cupÃ©rer 
     // la derniÃ¨re version du fichier.
     // AprÃ¨s avoir testÃ© et validÃ© une mÃ©thode, faites un commit et un push pour transmettre cette version aux autres dÃ©veloppeurs.
     
@@ -590,9 +590,44 @@ class DAO
         return $lesAutorisants;
     }
     
-    
-    
-    
+    public function creerUneAutorisation($idAutorisant, $idAutorise)
+    {
+        $txt_req1 = "insert into tracegps_autorisations (idAutorisant, idAutorise)";
+        $txt_req1 .= " values (:idAutorisant, :idAutorise)";
+        $req1 = $this->cnx->prepare($txt_req1);
+        
+        $req1->bindValue("idAutorisant", $idAutorisant, PDO::PARAM_STR);
+        $req1->bindValue("idAutorise", $idAutorise, PDO::PARAM_STR);
+
+        
+        $ok = $req1->execute();
+        // sortir en cas d'échec
+        if ( ! $ok) 
+        { 
+            return false; 
+        }
+        return true;
+    }
+
+    public function supprimerUneAutorisation($idAutorisant, $idAutorise)
+    {
+        $txt_req1 = "DELETE FROM tracegps_autorisations";
+        $txt_req1 .= " WHERE idAutorisant=:idAutorisant AND idAutorise=:idAutorise";
+        $req1 = $this->cnx->prepare($txt_req1);
+        
+        $req1->bindValue("idAutorisant", $idAutorisant, PDO::PARAM_STR);
+        $req1->bindValue("idAutorise", $idAutorise, PDO::PARAM_STR);
+        
+        
+        $ok = $req1->execute();
+        // sortir en cas d'échec
+        if ( ! $ok)
+        {
+            return false;
+        }
+        return true;
+    }
+
     
     
     
@@ -1160,4 +1195,3 @@ class DAO
 } // fin de la classe DAO
 
 // ATTENTION : on ne met pas de balise de fin de script pour ne pas prendre le risque
->>>>>>> branch 'master' of https://github.com/delasalle-sio-michaud-a/tracegps.git

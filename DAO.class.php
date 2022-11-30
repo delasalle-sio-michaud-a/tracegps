@@ -350,8 +350,7 @@ class DAO
 
     
     public function getLesUtilisateursAutorises($idUtilisateur){
-        $recupAutorise = "Select idAutorise from autorisations WHERE idAutorisant = :autorisant
-";
+        $recupAutorise = "Select idAutorise from autorisations WHERE idAutorisant = :autorisant";
         $req = $this->cnx->prepare($recupAutorise);
         $req->bindValue("autorisant", $idUtilisateur, PDO::PARAM_STR);
         // extraction des données

@@ -1,4 +1,5 @@
 
+
 <?php
 // Projet TraceGPS
 // fichier : modele/DAO.class.php   (DAO : Data Access Object)
@@ -793,23 +794,25 @@ class DAO
         
         $lespointsdetrace = array();
         
-        $unID = utf8_encode($uneligne -> id);
-        $uneLatitude = utf8_encode($uneligne -> latitude);
-        $uneligne.utf8_encode($uneLongitude = longitude);
-        $uneligne.utf8_encode($uneAltitude = altitude);
-        $uneligne.utf8_encode($uneDateHeure = dateHeure);
-        $uneligne.utf8_encode($unRythmeCardio = rythmecardio);
+        while ($uneligne) {   
         
+            $unID = utf8_encode($uneligne -> id);
+            $uneLatitude = utf8_encode($uneligne -> latitude);
+            $uneLongitude = utf8_encode($uneligne -> longitude);
+            $uneAltitude = utf8_encode($uneligne -> altitude);
+            $uneDateHeure = utf8_encode($uneligne -> dateHeure);
+            $unRythmeCardio = utf8_encode($uneligne -> rythmecardio);
+            
+            
+            
+            $unPointDeTrace = new PointDeTrace($idTrace, $unID, $uneLatitude, $uneLongitude, $uneAltitude, $uneDateHeure, $unRythmeCardio, 0, 0, 0);
+            
+            $lespointsdetrace[] = $unPointDeTrace;
+            $uneligne = $req->fetch(PDO::FETCH_OBJ); 
+        }
         
-        
-        
-        
-        
-        
-        $unPointDeTrace = new PointDeTrace($idTrace, $unID, $uneLatitude, $uneLongitude, $uneAltitude, $uneDateHeure, $unRythmeCardio, 0, 0, 0);
-    
-        $lespointsdetrace.add($unPointDeTrace);
         $req->closeCursor();
+        return $lespointsdetrace;
     
     }
     
@@ -1058,3 +1061,5 @@ class DAO
 } // fin de la classe DAO
 
 // ATTENTION : on ne met pas de balise de fin de script pour ne pas prendre le risque
+
+

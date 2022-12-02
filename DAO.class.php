@@ -997,6 +997,53 @@ class DAO
         
         
         
+
+        public function getToutesLesTraces()
+        {
+            
+                
+                $rtrace = "SELECT id,dateDebut,dateFin,terminee,idUtilisateur";
+                $rtrace .= " FROM tracegps_traces";
+                
+                
+                $req = $this->cnx->prepare($rtrace);
+                $req->execute();
+                $uneligne = $req->fetch(PDO::FETCH_OBJ);
+
+                $lesTraces = array();
+                
+                while ($uneligne) {
+                
+                    
+                    $unID =  utf8_encode($uneligne -> id);                    
+                    $uneDateDebut =  utf8_encode($uneligne -> dateDebut);
+                    $uneDateFin =  utf8_encode($uneligne -> dateFin);
+                    $estTerminee = utf8_encode($uneligne -> terminee);
+                    $unIdUtilisateur = utf8_encode($uneligne -> idUtilisateur);
+                    
+                    
+                    $uneTrace = new Trace($unID, $uneDateDebut, $uneDateFin, $estTerminee, $unIdUtilisateur);
+                    
+                    
+                    $lespointsdetrace = $this->getLesPointsDeTrace($unID);
+                    foreach ($lespointsdetrace as $unpoint)
+                    {
+                        $uneTrace->ajouterPoint($unpoint);
+                    }
+                    
+                    $lesTraces[] = $uneTrace;
+                    $uneligne = $req->fetch(PDO::FETCH_OBJ);
+                    
+                }
+                
+                
+                
+                
+                $req->closeCursor();
+                return $lesTraces;
+            
+            
+        }
         
         
         
@@ -1018,7 +1065,53 @@ class DAO
         
         
         
-        
+        public function getLesTraces($idUtilisateur)
+        {
+            
+            
+            $rtrace = "SELECT id,dateDebut,dateFin,terminee,idUtilisateur";
+            $rtrace .= " FROM tracegps_traces";
+            $rtrace .= " WHERE tracegps_traces.idUtilisateur = :idUtilisateur";
+            
+            
+            $req = $this->cnx->prepare($rtrace);
+            $req->bindValue("idUtilisateur", $idUtilisateur, PDO::PARAM_INT);
+            $req->execute();
+            $uneligne = $req->fetch(PDO::FETCH_OBJ);
+            
+            $lesTraces = array();
+            
+            while ($uneligne) {
+                
+                
+                $unID =  utf8_encode($uneligne -> id);
+                $uneDateDebut =  utf8_encode($uneligne -> dateDebut);
+                $uneDateFin =  utf8_encode($uneligne -> dateFin);
+                $estTerminee = utf8_encode($uneligne -> terminee);
+                
+                
+                $uneTrace = new Trace($unID, $uneDateDebut, $uneDateFin, $estTerminee, $idUtilisateur);
+                
+                
+                $lespointsdetrace = $this->getLesPointsDeTrace($unID);
+                foreach ($lespointsdetrace as $unpoint)
+                {
+                    $uneTrace->ajouterPoint($unpoint);
+                }
+                
+                $lesTraces[] = $uneTrace;
+                $uneligne = $req->fetch(PDO::FETCH_OBJ);
+                
+            }
+            
+            
+            
+            
+            $req->closeCursor();
+            return $lesTraces;
+            
+            
+        }
         
         
         

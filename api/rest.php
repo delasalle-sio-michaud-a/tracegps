@@ -1,3 +1,4 @@
+
 <?php
 // Projet TraceGPS - services web
 // Fichier : api/rest.php
@@ -122,4 +123,5 @@ class Rest {
 		return $lesEntrees;
 	}
 } // fin de la classe Rest
+
 ?>

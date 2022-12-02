@@ -1010,20 +1010,34 @@ class DAO
         
         
         
-        
         public function autoriseAConsulter($idAutorisant,$idAutorise){
+            //requête récupérant les différents id des utilisateurs autorisant
+            $userAutorisation = "SELECT idAutorisant,idAutorise FROM tracegps_autorisations WHERE idAutorisant LIKE :idAutorisant AND idAutorise LIKE :idAutorise";
             
-            $userAutorisant = DAO::getLesUtilisateursAutorisant($idAutorise);
-            $userAutorises = DAO::getLesUtilisateursAutorises($idAutorisant);
-            if ($userAutorisant && $userAutorises){
+            //requête permettant de récupérer les différents id des utilisateurs autorisés à voir les traces des autres utilsisteurs
+            
+            $reqRecupAutorisation= $this->cnx->prepare($userAutorisation);
+            
+            $reqRecupAutorisation->bindValue("idAutorisant", $idAutorisant);
+            $reqRecupAutorisation->bindValue("idAutorise", $idAutorise);
+            
+            $reqRecupAutorisation->execute();
+            
+            if ($reqRecupAutorisation->fetch()){
                 return true;
             }
+            
             return false;
-            
-            
-            
-            
         }
+        
+                
+                
+                
+                
+                
+                
+                
+                
         
         
         

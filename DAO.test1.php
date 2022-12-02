@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 // Projet TraceGPS
 // fichier : modele/DAO.test1.php
@@ -47,7 +46,6 @@ $lesUtilisateurs = $dao->getLesUtilisateursAutorises(2);
 $nbReponses = sizeof($lesUtilisateurs);
 echo "<p>Nombre d'utilisateurs autorisés par l'utilisateur 2 : " . $nbReponses . "</p>";
 // affichage des utilisateurs
-
 foreach ($lesUtilisateurs as $unUtilisateur)
 { 
     echo ($unUtilisateur->toString());
@@ -62,3 +60,6 @@ foreach ($lesUtilisateurs as $unUtilisateur)
 // ferme la connexion à MySQL :
 unset($dao);
 ?>
+
+</body>
+</html>

@@ -390,32 +390,22 @@ class DAO
     
     public function creerUnPointDeTrace($unPointDeTrace) {
         // on teste si l'utilisateur existe déjà
-        if ($this->getUneTrace(utf8_decode($unPointDeTrace->getIdTrace()))) return false;
-        
         // prÃ©paration de la requÃªte idTrace ,id, latitude, longitude, altitude, dateHeure, rythmeCardio, tempsCumule, distanceCumulee, vitesse
-        $txt_req1 = "insert into tracegps_points (idTrace ,id, latitude, longitude, altitude, dateHeure, rythmeCardio, tempsCumule, distanceCumulee, vitesse)";
-        $txt_req1 .= " values (:idTrace, :id, :latitude, :longitude, :altitude, :dateHeure, :ryhtmeCardio, :tempsCumule, :distanceCumulee, :vitesse)";
+        $txt_req1 = "insert into tracegps_points (idTrace ,id, latitude, longitude, altitude, dateHeure, rythmeCardio)";
+        $txt_req1 .= " values (:idTrace, :id, :latitude, :longitude, :altitude, :dateHeure, :ryhtmeCardio)";
         $req1 = $this->cnx->prepare($txt_req1);
         // liaison de la requÃªte et de ses paramÃ¨tres
-        $req1->bindValue("idTrace", utf8_decode($unPointDeTrace->getIdTrace()), PDO::PARAM_STR);
-        $req1->bindValue("id", utf8_decode($unPointDeTrace->getPseudo()), PDO::PARAM_STR);
-        $req1->bindValue("latitude", utf8_decode(sha1($unPointDeTrace->getMdpsha1())), PDO::PARAM_STR);
-        $req1->bindValue("longitude", utf8_decode($unPointDeTrace->getAdrmail()), PDO::PARAM_STR);
-        $req1->bindValue("altitude", utf8_decode($unPointDeTrace->getNumTel()), PDO::PARAM_STR);
-        $req1->bindValue("dateHeure", utf8_decode($unPointDeTrace->getNiveau()), PDO::PARAM_INT);
-        $req1->bindValue("ryhtmeCardio", utf8_decode($unPointDeTrace->getDateCreation()), PDO::PARAM_STR);
-        $req1->bindValue(" tempsCumule", utf8_decode($unPointDeTrace->getDateCreation()), PDO::PARAM_STR);
-        $req1->bindValue("distanceCumulee", utf8_decode($unPointDeTrace->getDateCreation()), PDO::PARAM_STR);
-        $req1->bindValue("vitesse", utf8_decode($unPointDeTrace->getDateCreation()), PDO::PARAM_STR);
+        $req1->bindValue("idTrace", utf8_decode($unPointDeTrace->getIdTrace()), PDO::PARAM_INT);
+        $req1->bindValue("id", utf8_decode($unPointDeTrace->getId()), PDO::PARAM_INT);
+        $req1->bindValue("latitude", utf8_decode($unPointDeTrace->getLatitude()), PDO::PARAM_STR);
+        $req1->bindValue("longitude", utf8_decode($unPointDeTrace->getLongitude()), PDO::PARAM_STR);
+        $req1->bindValue("altitude", utf8_decode($unPointDeTrace->getAltitude()), PDO::PARAM_STR);
+        $req1->bindValue("dateHeure", utf8_decode($unPointDeTrace->getDateHeure()), PDO::PARAM_STR);
+        $req1->bindValue("ryhtmeCardio", utf8_decode($unPointDeTrace->getRythmeCardio()), PDO::PARAM_INT);
         // exÃ©cution de la requÃªte
         $ok = $req1->execute();
-        // sortir en cas d'Ã©chec
-        if ( !$ok) { return false; }
-        
-        // recherche de l'identifiant (auto_increment) qui a Ã©tÃ© attribuÃ© Ã  la trace
-        $unId = $this->cnx->lastInsertId();
-        $unPointDeTrace->setId($unId);
-        return true;
+        // retourne true ou false
+        return $ok;
     }
     
     

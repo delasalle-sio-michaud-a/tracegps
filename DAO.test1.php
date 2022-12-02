@@ -84,6 +84,7 @@ echo "<p>Nombre de points de la trace 1 : " . $nbPoints . "</p>";
 echo ('<br>');
 
 
+
 // ferme la connexion à MySQL :
 unset($dao);
 ?>

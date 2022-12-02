@@ -53,7 +53,7 @@ class DAO
     // ---------------------------------- Membres privés de la classe ---------------------------------------
     // ------------------------------------------------------------------------------------------------------
 
-    private $cnx;				// la connexion Ã  la base de donnÃ©es
+    private $cnx;				// la connexion Ã  la base de données
     
     // ------------------------------------------------------------------------------------------------------
     // ---------------------------------- Constructeur et destructeur ---------------------------------------
@@ -335,10 +335,13 @@ class DAO
     // DÃ©veloppeur 4 : lignes 950 Ã  1150
     
     // Quelques conseils pour le travail collaboratif :
-    // avant d'attaquer un cycle de dÃ©veloppement (dÃ©but de sÃ©ance, nouvelle mÃ©thode, ...), faites un Pull pour rÃ©cupÃ©rer 
+    // avant d'attaquer un cycle de dÃ©veloppement (dÃ©but de sÃ©ance, nouvelle méthode, ...), faites un Pull pour rÃ©cupÃ©rer 
     // la derniÃ¨re version du fichier.
     // AprÃ¨s avoir testÃ© et validÃ© une mÃ©thode, faites un commit et un push pour transmettre cette version aux autres dÃ©veloppeurs.
- 
+    
+    
+    
+    
     
     // --------------------------------------------------------------------------------------
     // début de la zone attribuée au développeur 1 (delasalle-sio-michaud-a) : lignes 350 à 549
@@ -383,6 +386,33 @@ class DAO
         return $lesAutorises;
     }
     
+        
+    
+    public function creeUnPointDeTrace($unPointDeTrace) {
+        // on teste si l'utilisateur existe dÃ©jÃ 
+        if ($this->getUneTrace($unPointDeTrace)) return false;
+        
+        // prÃ©paration de la requÃªte
+        $txt_req1 = "insert into tracegps_utilisateurs (id, latitude, longitude, altitude, dateHeure, ryhtmeCardio)";
+        $txt_req1 .= " values (:id, :latitude, :longitude, :altitude, :dateHeure, :ryhtmeCardio)";
+        $req1 = $this->cnx->prepare($txt_req1);
+        // liaison de la requÃªte et de ses paramÃ¨tres
+        $req1->bindValue("id", utf8_decode($unPointDeTrace->getPseudo()), PDO::PARAM_STR);
+        $req1->bindValue("latitude", utf8_decode(sha1($unPointDeTrace->getMdpsha1())), PDO::PARAM_STR);
+        $req1->bindValue("longitude", utf8_decode($unPointDeTrace->getAdrmail()), PDO::PARAM_STR);
+        $req1->bindValue("altitude", utf8_decode($unPointDeTrace->getNumTel()), PDO::PARAM_STR);
+        $req1->bindValue("dateHeure", utf8_decode($unPointDeTrace->getNiveau()), PDO::PARAM_INT);
+        $req1->bindValue("ryhtmeCardio", utf8_decode($unPointDeTrace->getDateCreation()), PDO::PARAM_STR);
+        // exÃ©cution de la requÃªte
+        $ok = $req1->execute();
+        // sortir en cas d'Ã©chec
+        if ( ! $ok) { return false; }
+        
+        // recherche de l'identifiant (auto_increment) qui a Ã©tÃ© attribuÃ© Ã  la trace
+        $unId = $this->cnx->lastInsertId();
+        $unUtilisateur->setId($unId);
+        return true;
+    }
     
     
     
@@ -404,13 +434,155 @@ class DAO
     
     
     
-  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // --------------------------------------------------------------------------------------
     // début de la zone attribuée au développeur 2 (delasalle-sio-kergoat-m) : lignes 550 à 749
     // --------------------------------------------------------------------------------------
     public function getLesUtilisateursAutorisant($idUtilisateur)
     {
-        $recupAutorisant = "SELECT id, pseudo, mdpSha1, adrMail, numTel, niveau, dateCreation, nbTraces, dateDerniereTrace";             // from tracegps_autorisations JOIN tracegps_utilisateurs ON idAutorisant=id WHERE idAutorise = :autorise";
+        $recupAutorisant = "SELECT id, pseudo, mdpSha1, adrMail, numTel, niveau, dateCreation, nbTraces, dateDerniereTrace";             // from tracegps_autorisations JOIN tracegps_utilisateurs ON idAutorisant=id WHERE idAutorise = :autorise";      
         $recupAutorisant .= " FROM tracegps_vue_utilisateurs";
         $recupAutorisant .= " WHERE tracegps_vue_utilisateurs.niveau = 1";
         $recupAutorisant .= " AND tracegps_vue_utilisateurs.id IN (SELECT idAutorisant FROM tracegps_autorisations WHERE idAutorise = :idUtilisateur)";
@@ -443,6 +615,44 @@ class DAO
         return $lesAutorisants;
     }
     
+    public function creerUneAutorisation($idAutorisant, $idAutorise)
+    {
+        $txt_req1 = "insert into tracegps_autorisations (idAutorisant, idAutorise)";
+        $txt_req1 .= " values (:idAutorisant, :idAutorise)";
+        $req1 = $this->cnx->prepare($txt_req1);
+        
+        $req1->bindValue("idAutorisant", $idAutorisant, PDO::PARAM_STR);
+        $req1->bindValue("idAutorise", $idAutorise, PDO::PARAM_STR);
+
+        
+        $ok = $req1->execute();
+        // sortir en cas d'échec
+        if ( ! $ok) 
+        { 
+            return false; 
+        }
+        return true;
+    }
+
+    public function supprimerUneAutorisation($idAutorisant, $idAutorise)
+    {
+        $txt_req1 = "DELETE FROM tracegps_autorisations";
+        $txt_req1 .= " WHERE idAutorisant=:idAutorisant AND idAutorise=:idAutorise";
+        $req1 = $this->cnx->prepare($txt_req1);
+        
+        $req1->bindValue("idAutorisant", $idAutorisant, PDO::PARAM_STR);
+        $req1->bindValue("idAutorise", $idAutorise, PDO::PARAM_STR);
+        
+        
+        $ok = $req1->execute();
+        // sortir en cas d'échec
+        if ( ! $ok)
+        {
+            return false;
+        }
+        return true;
+    }
+
     
     
     
@@ -536,13 +746,64 @@ class DAO
             
         }
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         /*public function getUneTrace($idTrace)
         {
             
-            $rtrace = "SELECT idTrace,id,latitude,longitude,altitude, dateHeure, rythmeCardio ";
-            $rtrace .= "FROM tracegps_points INNER JOIN tracegps_traces";
-            $rtrace .=" ON tracegps_points.idTrace = tracegps_traces.id";
-            $rtrace .= " WHERE tracegps_points.idTrace = :idTrace";
+            if(sizeof($this->getLesPointsDeTrace($idTrace)) != 0){
+            
+                $rtrace = "SELECT id,dateDebut,dateFin,terminee,idUtilisateur";
+                $rtrace .= " FROM tracegps_traces";
+                $rtrace .= " WHERE tracegps_traces.id = :idTrace";
+    
+                
+                $req = $this->cnx->prepare($rtrace);
+                $req->bindValue("idTrace", $idTrace, PDO::PARAM_INT);
+                $req->execute();
+                $uneligne = $req->fetch(PDO::FETCH_OBJ);
+    
+                
+                $uneDateDebut =  utf8_encode($uneligne -> dateDebut);
+                $uneDateFin =  utf8_encode($uneligne -> dateFin);
+                $estTerminee = utf8_encode($uneligne -> terminee);                       
+                $unIdUtilisateur = utf8_encode($uneligne -> idUtilisateur);
+                
+                
+                $uneTrace = new Trace($idTrace, $uneDateDebut, $uneDateFin, $estTerminee, $unIdUtilisateur);
+    
+                
+                $lespointsdetrace = $this->getLesPointsDeTrace($idTrace);            
+                foreach ($lespointsdetrace as $unpoint)
+                {
+                    $uneTrace->ajouterPoint($unpoint);
+                }
+                
+                return $uneTrace;
+            }
             
             
             
@@ -717,5 +978,4 @@ class DAO
         
         
 } // fin de la classe DAO
-
 // ATTENTION : on ne met pas de balise de fin de script pour ne pas prendre le risque

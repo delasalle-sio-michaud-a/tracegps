@@ -36,12 +36,6 @@ $dao = new DAO();
 echo "<h3>Test de Manon : </h3>";
 // A CONTINUER .........
 
-
-
-
-
-
-
 // test de la méthode getLesUtilisateursAutorisant ------------------------------------------------
 // modifié par dP le 13/8/2021
 echo "<h3>Test de getLesUtilisateursAutorisant(idUtilisateur) : </h3>";
@@ -50,12 +44,29 @@ $nbReponses = sizeof($lesUtilisateurs);
 echo "<p>Nombre d'utilisateurs autorisant l'utilisateur 4 à voir leurs parcours : " . $nbReponses . "</p>";
 // affichage des utilisateurs
 foreach ($lesUtilisateurs as $unUtilisateur)
-    {   
+    { 
         echo ($unUtilisateur->toString());
         echo ('<br>');
     }
 
+// test de la méthode creerUneAutorisation ---------------------------------------------------------
+// modifié par dP le 13/8/2021
+echo "<h3>Test de creerUneAutorisation : </h3>";
+if ($dao->creerUneAutorisation(2, 1)) $ok = "oui"; else $ok = "non";
+echo "<p>La création de l'autorisation de l'utilisateur 2 vers l'utilisateur 1 a réussi : <b>" . $ok . "</b><br>";
+// la même autorisation ne peut pas être enregistrée 2 fois
+if ($dao->creerUneAutorisation(2, 1)) $ok = "oui"; else $ok = "non";
+echo "<p>La création de l'autorisation de l'utilisateur 2 vers l'utilisateur 1 a réussi : <b>" . $ok . "</b><br>";
 
+// test de la méthode supprimerUneAutorisation ----------------------------------------------------
+// modifié par dP le 13/8/2021
+echo "<h3>Test de supprimerUneAutorisation : </h3>";
+// on crée une autorisation
+if ($dao->creerUneAutorisation(2, 1)) $ok = "oui"; else $ok = "non";
+echo "<p>La création de l'autorisation de l'utilisateur 2 vers l'utilisateur 1 a réussi : <b>" . $ok . "</b><br>";
+// puis on la supprime
+if ($dao->supprimerUneAutorisation(2, 1)) $ok = "oui"; else $ok = "non";
+echo "<p>La suppression de l'autorisation de l'utilisateur 2 vers l'utilisateur 1 a réussi : <b>" . $ok . "</b><br>";
 
 
 

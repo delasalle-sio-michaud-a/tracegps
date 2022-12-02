@@ -338,10 +338,7 @@ class DAO
     // avant d'attaquer un cycle de dÃ©veloppement (dÃ©but de sÃ©ance, nouvelle méthode, ...), faites un Pull pour rÃ©cupÃ©rer 
     // la derniÃ¨re version du fichier.
     // AprÃ¨s avoir testÃ© et validÃ© une mÃ©thode, faites un commit et un push pour transmettre cette version aux autres dÃ©veloppeurs.
-    
-    
-    
-    
+ 
     
     // --------------------------------------------------------------------------------------
     // début de la zone attribuée au développeur 1 (delasalle-sio-michaud-a) : lignes 350 à 549
@@ -386,7 +383,6 @@ class DAO
         return $lesAutorises;
     }
     
-        
     
     public function creeUnPointDeTrace($unPointDeTrace) {
         // on teste si l'utilisateur existe dÃ©jÃ 
@@ -433,156 +429,18 @@ class DAO
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+  
     // --------------------------------------------------------------------------------------
     // début de la zone attribuée au développeur 2 (delasalle-sio-kergoat-m) : lignes 550 à 749
     // --------------------------------------------------------------------------------------
     public function getLesUtilisateursAutorisant($idUtilisateur)
     {
-        $recupAutorisant = "SELECT id, pseudo, mdpSha1, adrMail, numTel, niveau, dateCreation, nbTraces, dateDerniereTrace";             // from tracegps_autorisations JOIN tracegps_utilisateurs ON idAutorisant=id WHERE idAutorise = :autorise";      
+        $recupAutorisant = "SELECT id, pseudo, mdpSha1, adrMail, numTel, niveau, dateCreation, nbTraces, dateDerniereTrace";             // from tracegps_autorisations JOIN tracegps_utilisateurs ON idAutorisant=id WHERE idAutorise = :autorise";
+        $recupAutorisant .= "FROM tracegps_vue_utilisateurs";
+        $recupAutorisant .= "WHERE niveau = 1";
+        $recupAutorisant .= "AND id IN (SELECT idAutorisant FROM tracegps_autorisations WHERE idAutorise = :idUtilisateur)";
+        $recupAutorisant .= "ORDER BY pseudo";
+ 
         $recupAutorisant .= " FROM tracegps_vue_utilisateurs";
         $recupAutorisant .= " WHERE tracegps_vue_utilisateurs.niveau = 1";
         $recupAutorisant .= " AND tracegps_vue_utilisateurs.id IN (SELECT idAutorisant FROM tracegps_autorisations WHERE idAutorise = :idUtilisateur)";
@@ -653,9 +511,6 @@ class DAO
         return true;
     }
 
-    
-    
-    
     
     
     
@@ -746,6 +601,7 @@ class DAO
             
         }
         
+
         
         
         
@@ -769,9 +625,7 @@ class DAO
         
         
         
-        
-        
-        /*public function getUneTrace($idTrace)
+    /*    public function getUneTrace($idTrace)
         {
             
             if(sizeof($this->getLesPointsDeTrace($idTrace)) != 0){

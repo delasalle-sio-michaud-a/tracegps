@@ -85,6 +85,40 @@ echo ('<br>');
 
 
 
+// test de la méthode creerUneTrace ----------------------------------------------------------
+// modifié par dP le 14/8/2021
+echo "<h3>Test de creerUneTrace : </h3>";
+$trace1 = new Trace(0, "2017-12-18 14:00:00", "2017-12-18 14:10:00", true, 3);
+$ok = $dao->creerUneTrace($trace1);
+if ($ok) {
+    echo "<p>Trace bien enregistrée !</p>";
+    echo $trace1->toString();
+}
+else {
+    echo "<p>Echec lors de l'enregistrement de la trace !</p>";
+}
+$trace2 = new Trace(0, date('Y-m-d H:i:s', time()), null, false, 3);
+$ok = $dao->creerUneTrace($trace2);
+if ($ok) {
+    echo "<p>Trace bien enregistrée !</p>";
+    echo $trace2->toString();
+}
+else {
+    echo "<p>Echec lors de l'enregistrement de la trace !</p>";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ferme la connexion à MySQL :
 unset($dao);
 ?>

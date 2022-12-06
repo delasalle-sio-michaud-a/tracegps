@@ -37,14 +37,14 @@
 
 
 // certaines méthodes nécessitent les classes suivantes :
-include_once ('modele/Utilisateur.class.php');
-include_once ('modele/Trace.class.php');
-include_once ('modele/PointDeTrace.class.php');
-include_once ('modele/Point.class.php');
-include_once ('modele/Outils.class.php');
+include_once ('Utilisateur.class.php');
+include_once ('Trace.class.php');
+include_once ('PointDeTrace.class.php');
+include_once ('Point.class.php');
+include_once ('Outils.class.php');
 
 // inclusion des paramètres de l'application
-include_once ('parametres.php');
+include_once ('../parametres.php');
 
 // début de la classe DAO (Data Access Object)
 class DAO
@@ -1075,50 +1075,7 @@ class DAO
         
         
         
-        
-        
-        
-        public function getUneTrace($idTrace)
-        {
-            
-            if(sizeof($this->getLesPointsDeTrace($idTrace)) != 0){
-            
-                $rtrace = "SELECT id,dateDebut,dateFin,terminee,idUtilisateur";
-                $rtrace .= " FROM tracegps_traces";
-                $rtrace .= " WHERE tracegps_traces.id = :idTrace";
-    
-                
-                $req = $this->cnx->prepare($rtrace);
-                $req->bindValue("idTrace", $idTrace, PDO::PARAM_INT);
-                $req->execute();
-                $uneligne = $req->fetch(PDO::FETCH_OBJ);
-    
-                
-                $uneDateDebut =  utf8_encode($uneligne -> dateDebut);
-                $uneDateFin =  utf8_encode($uneligne -> dateFin);
-                $estTerminee = utf8_encode($uneligne -> terminee);                       
-                $unIdUtilisateur = utf8_encode($uneligne -> idUtilisateur);
-                
-                
-                $uneTrace = new Trace($idTrace, $uneDateDebut, $uneDateFin, $estTerminee, $unIdUtilisateur);
-    
-                
-                $lespointsdetrace = $this->getLesPointsDeTrace($idTrace);            
-                foreach ($lespointsdetrace as $unpoint)
-                {
-                    $uneTrace->ajouterPoint($unpoint);
-                }
-                
-                return $uneTrace;
-            }
-            
-        }
-        
-        
-        
-        
-        
-        
+     
         
         
         

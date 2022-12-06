@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <?php
 // Projet TraceGPS - services web
 // fichier : api/services/GetTousLesUtilisateurs.php
@@ -533,4 +533,4 @@ function creerFluxJSON($msg, $lesUtilisateurs)
 
 // ================================================================================================
 ?>
->>>>>>> branch 'master' of https://github.com/delasalle-sio-michaud-a/tracegps.git
+

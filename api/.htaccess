@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -22,5 +21,5 @@ RewriteRule ^(.*)$ api.php [QSA,NC,L]
 
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^(.*)$ api.php [QSA,NC,L] 
->>>>>>> branch 'master' of https://github.com/delasalle-sio-michaud-a/tracegps.git
+
 </IfModule>

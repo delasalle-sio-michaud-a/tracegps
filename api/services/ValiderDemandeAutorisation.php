@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 // Projet TraceGPS - services web
 // fichier : api/services/ValiderDemandeAutorisation.php
@@ -242,5 +241,4 @@ unset($dao);   // ferme la connexion à MySQL
 	<p><?php echo $message; ?></p>
 	<p><a href="Javascript:window.close();">Fermer</a></p>
 </body>
->>>>>>> branch 'master' of https://github.com/delasalle-sio-michaud-a/tracegps.git
 </html>

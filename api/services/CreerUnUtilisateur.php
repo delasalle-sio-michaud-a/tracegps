@@ -1,3 +1,4 @@
+
 <?php
 // Projet TraceGPS - services web
 // fichier :  api/services/CreerUnUtilisateur.php
@@ -172,4 +173,5 @@ function creerFluxJSON($msg)
 }
 
 // ================================================================================================
+
 ?>

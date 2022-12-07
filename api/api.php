@@ -147,3 +147,4 @@ class Api extends Rest
 // Traitement de la requête HTTP
 $api = new Api;
 $api->traiterRequete();
+?>

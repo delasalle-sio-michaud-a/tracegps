@@ -18,9 +18,9 @@
 $dao = new DAO();
 
 // Récupération des données transmises
-$pseudo = (empty($this->request['pseudo'])) ? "" : $this->request['pseudo'];
-$mdpSha1 = (empty($this->request['mdp'])) ? "" : $this->request['mdp'];
-$lang = (empty($this->request['lang'])) ? "" : $this->request['lang'];
+$pseudo = (empty($dao->request['pseudo'])) ? "" : $dao->request['pseudo'];
+$mdpSha1 = (empty($dao->request['mdp'])) ? "" : $dao->request['mdp'];
+$lang = (empty($dao->request['lang'])) ? "" : $dao->request['lang'];
 
 // "xml" par défaut si le paramètre lang est absent ou incorrect
 if ($lang != "json")
@@ -31,7 +31,7 @@ $nbReponses = 0;
 $lesUtilisateurs = array();
 
 // La méthode HTTP utilisée doit être GET
-if ($this->getMethodeRequete() != "GET") {
+if ($dao->getMethodeRequete() != "GET") {
     $msg = "Erreur : méthode HTTP incorrecte.";
     $code_reponse = 406;
 } else {
@@ -72,7 +72,7 @@ if ($lang == "xml") {
 }
 
 // envoi de la réponse HTTP
-$this->envoyerReponse($code_reponse, $content_type, $donnees);
+$dao->envoyerReponse($code_reponse, $content_type, $donnees);
 
 // fin du programme (pour ne pas enchainer sur les 2 fonctions qui suivent)
 exit();
@@ -286,9 +286,9 @@ function creerFluxJSON($msg, $lesUtilisateurs)
 $dao = new DAO();
 	
 // Récupération des données transmises
-$pseudo = ( empty($this->request['pseudo'])) ? "" : $this->request['pseudo'];
-$mdpSha1 = ( empty($this->request['mdp'])) ? "" : $this->request['mdp'];
-$lang = ( empty($this->request['lang'])) ? "" : $this->request['lang'];
+$pseudo = ( empty($dao->request['pseudo'])) ? "" : $dao->request['pseudo'];
+$mdpSha1 = ( empty($dao->request['mdp'])) ? "" : $dao->request['mdp'];
+$lang = ( empty($dao->request['lang'])) ? "" : $dao->request['lang'];
 
 // "xml" par défaut si le paramètre lang est absent ou incorrect
 if ($lang != "json") $lang = "xml";
@@ -298,7 +298,7 @@ $nbReponses = 0;
 $lesUtilisateurs = array();
 
 // La méthode HTTP utilisée doit être GET
-if ($this->getMethodeRequete() != "GET")
+if ($dao->getMethodeRequete() != "GET")
 {	$msg = "Erreur : méthode HTTP incorrecte.";
     $code_reponse = 406;
 }
@@ -345,7 +345,7 @@ else {
 }
 
 // envoi de la réponse HTTP
-$this->envoyerReponse($code_reponse, $content_type, $donnees);
+$dao->envoyerReponse($code_reponse, $content_type, $donnees);
 
 // fin du programme (pour ne pas enchainer sur les 2 fonctions qui suivent)
 exit;

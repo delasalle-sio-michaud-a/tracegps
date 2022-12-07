@@ -27,7 +27,7 @@
 
 <?php
 // connexion du serveur web à la base MySQL
-include_once ('../DAO/DAO.class.php');
+include_once ('DAO.class.php');
 $dao = new DAO();
 
 
@@ -62,7 +62,8 @@ echo "<h4>l'objet laTrace avant l'appel de la méthode terminerUneTrace : </h4>"
 echo ($laTrace->toString());
 echo ('<br>');
 // on la termine
-$dao->terminerUneTrace($unIdTrace);
+//$dao->terminerUneTrace($unIdTrace);
+$dao->terminerUneTrace($laTrace);
 // et on l'affiche à nouveau
 $laTrace = $dao->getUneTrace($unIdTrace);
 echo "<h4>l'objet laTrace après l'appel de la méthode terminerUneTrace : </h4>";

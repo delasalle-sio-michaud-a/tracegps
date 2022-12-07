@@ -52,8 +52,8 @@ class DAO
     // ------------------------------------------------------------------------------------------------------
     // ---------------------------------- Membres privés de la classe ---------------------------------------
     // ------------------------------------------------------------------------------------------------------
-
-    private $cnx;				// la connexion Ã  la base de données
+    
+    private $cnx;				// la connexion Ã  la base de données
     
     // ------------------------------------------------------------------------------------------------------
     // ---------------------------------- Constructeur et destructeur ---------------------------------------
@@ -75,7 +75,7 @@ class DAO
     }
     
     public function __destruct() {
-        // ferme la connexion Ã  MySQL :
+        // ferme la connexion Ã  MySQL :
         unset($this->cnx);
     }
     
@@ -104,7 +104,7 @@ class DAO
         // traitement de la rÃ©ponse
         $reponse = 0;
         if ($uneLigne) {
-        	$reponse = $uneLigne->niveau;
+            $reponse = $uneLigne->niveau;
         }
         // libÃ¨re les ressources du jeu de donnÃ©es
         $req->closeCursor();
@@ -137,7 +137,7 @@ class DAO
     }
     
     
-    // fournit un objet Utilisateur Ã  partir de son pseudo $pseudo
+    // fournit un objet Utilisateur Ã  partir de son pseudo $pseudo
     // fournit la valeur null si le pseudo n'existe pas
     // modifiÃ© par Jim le 9/1/2018
     public function getUnUtilisateur($pseudo) {
@@ -207,7 +207,7 @@ class DAO
             $uneDateDerniereTrace = utf8_encode($uneLigne->dateDerniereTrace);
             
             $unUtilisateur = new Utilisateur($unId, $unPseudo, $unMdpSha1, $uneAdrMail, $unNumTel, $unNiveau, $uneDateCreation, $unNbTraces, $uneDateDerniereTrace);
-            // ajout de l'utilisateur Ã  la collection
+            // ajout de l'utilisateur Ã  la collection
             $lesUtilisateurs[] = $unUtilisateur;
             // extrait la ligne suivante
             $uneLigne = $req->fetch(PDO::FETCH_OBJ);
@@ -217,11 +217,11 @@ class DAO
         // fourniture de la collection
         return $lesUtilisateurs;
     }
-
+    
     
     // enregistre l'utilisateur $unUtilisateur dans la bdd
     // fournit true si l'enregistrement s'est bien effectuÃ©, false sinon
-    // met Ã  jour l'objet $unUtilisateur avec l'id (auto_increment) attribuÃ© par le SGBD
+    // met Ã  jour l'objet $unUtilisateur avec l'id (auto_increment) attribuÃ© par le SGBD
     // modifiÃ© par Jim le 9/1/2018
     public function creerUnUtilisateur($unUtilisateur) {
         // on teste si l'utilisateur existe dÃ©jÃ 
@@ -243,7 +243,7 @@ class DAO
         // sortir en cas d'Ã©chec
         if ( ! $ok) { return false; }
         
-        // recherche de l'identifiant (auto_increment) qui a Ã©tÃ© attribuÃ© Ã  la trace
+        // recherche de l'identifiant (auto_increment) qui a Ã©tÃ© attribuÃ© Ã  la trace
         $unId = $this->cnx->lastInsertId();
         $unUtilisateur->setId($unId);
         return true;
@@ -306,7 +306,7 @@ class DAO
     }
     
     
-    // envoie un mail Ã  l'utilisateur $pseudo avec son nouveau mot de passe $nouveauMdp
+    // envoie un mail Ã  l'utilisateur $pseudo avec son nouveau mot de passe $nouveauMdp
     // retourne true si envoi correct, false en cas de problÃ¨me d'envoi
     // modifiÃ© par Jim le 9/1/2018
     public function envoyerMdp($pseudo, $nouveauMdp) {
@@ -317,7 +317,7 @@ class DAO
         // recherche de l'adresse mail
         $adrMail = $this->getUnUtilisateur($pseudo)->getAdrMail();
         
-        // envoie un mail Ã  l'utilisateur avec son nouveau mot de passe
+        // envoie un mail Ã  l'utilisateur avec son nouveau mot de passe
         $sujet = "Modification de votre mot de passe d'accÃ¨s au service TraceGPS";
         $message = "Cher(chÃ¨re) " . $pseudo . "\n\n";
         $message .= "Votre mot de passe d'accÃ¨s au service service TraceGPS a Ã©tÃ© modifiÃ©.\n\n";
@@ -327,15 +327,15 @@ class DAO
     }
     
     
-    // Le code restant Ã  dÃ©velopper va Ãªtre rÃ©parti entre les membres de l'Ã©quipe de dÃ©veloppement.
-    // Afin de limiter les conflits avec GitHub, il est dÃ©cidÃ© d'attribuer une zone de ce fichier Ã  chaque dÃ©veloppeur.
-    // DÃ©veloppeur 1 : lignes 350 Ã  549
-    // DÃ©veloppeur 2 : lignes 550 Ã  749
-    // DÃ©veloppeur 3 : lignes 750 Ã  949
-    // DÃ©veloppeur 4 : lignes 950 Ã  1150
+    // Le code restant Ã  dÃ©velopper va Ãªtre rÃ©parti entre les membres de l'Ã©quipe de dÃ©veloppement.
+    // Afin de limiter les conflits avec GitHub, il est dÃ©cidÃ© d'attribuer une zone de ce fichier Ã  chaque dÃ©veloppeur.
+    // DÃ©veloppeur 1 : lignes 350 Ã  549
+    // DÃ©veloppeur 2 : lignes 550 Ã  749
+    // DÃ©veloppeur 3 : lignes 750 Ã  949
+    // DÃ©veloppeur 4 : lignes 950 Ã  1150
     
     // Quelques conseils pour le travail collaboratif :
-    // avant d'attaquer un cycle de dÃ©veloppement (dÃ©but de sÃ©ance, nouvelle méthode, ...), faites un Pull pour rÃ©cupÃ©rer 
+    // avant d'attaquer un cycle de dÃ©veloppement (dÃ©but de sÃ©ance, nouvelle méthode, ...), faites un Pull pour rÃ©cupÃ©rer
     // la derniÃ¨re version du fichier.
     // AprÃ¨s avoir testÃ© et validÃ© une mÃ©thode, faites un commit et un push pour transmettre cette version aux autres dÃ©veloppeurs.
     
@@ -346,7 +346,7 @@ class DAO
     // --------------------------------------------------------------------------------------
     // début de la zone attribuée au développeur 1 (delasalle-sio-michaud-a) : lignes 350 à 549
     // --------------------------------------------------------------------------------------
-   
+    
     
     public function getLesUtilisateursAutorises($idUtilisateur) {
         // préparation de la requête de recherche
@@ -386,7 +386,7 @@ class DAO
         return $lesAutorises;
     }
     
-        
+    
     
     public function creerUnPointDeTrace($unPointDeTrace) {
         // on teste si l'utilisateur existe déjà
@@ -410,16 +410,67 @@ class DAO
     
     
     
+    public function creerUneTrace($uneTrace) {
+        // on teste si l'utilisateur existe déjà
+        // prÃ©paration de la requÃªte idTrace ,id, latitude, longitude, altitude, dateHeure, rythmeCardio, tempsCumule, distanceCumulee, vitesse
+        $txt_req1 = "insert into tracegps_traces (id ,DateDebut, dateFin, terminee, idUtilisateur)";
+        $txt_req1 .= " values (:id ,:DateDebut, :dateFin, :terminee, :idUtilisateur)";
+        $req1 = $this->cnx->prepare($txt_req1);
+        // liaison de la requÃªte et de ses paramÃ¨tres
+        $req1->bindValue("id", utf8_decode($uneTrace->getId()), PDO::PARAM_INT);
+        $req1->bindValue("DateDebut", utf8_decode($uneTrace->getDateHeureDebut()), PDO::PARAM_INT);
+        if(utf8_decode($uneTrace->getDateHeureFin()) == "")
+        {
+            $req1->bindValue("dateFin", utf8_decode($uneTrace->getDateHeureFin()), PDO::PARAM_NULL);
+        }
+        else{
+            $req1->bindValue("dateFin", utf8_decode($uneTrace->getDateHeureFin()), PDO::PARAM_STR);
+        }
+        $req1->bindValue("terminee", utf8_decode($uneTrace->getTerminee()), PDO::PARAM_STR);
+        $req1->bindValue("idUtilisateur", utf8_decode($uneTrace->getIdUtilisateur()), PDO::PARAM_STR);
+        // exÃ©cution de la requête
+        $ok = $req1->execute();
+        // retourne true ou false
+        if($ok){
+            return true;
+        }
+        return false;
+    }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
+    public function getLestracesAutorisees($idUtilisateur) {
+        // préparation de la requête de recherche
+        $recupAutorise = "Select id, dateDebut, dateFin, terminee, idUtilisateur, pseudo, nbPoints";
+        $recupAutorise .= " from tracegps_vue_traces";
+        $recupAutorise .= " where idUtilisateur = :idUtilisateur";
+        
+        $req = $this->cnx->prepare($recupAutorise);
+        $req->bindValue("idUtilisateur", $idUtilisateur, PDO::PARAM_STR);
+        $req->execute();
+        $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        
+        $lesAutorises = array();
+        
+        // traitement de la réponse
+        while($uneLigne)
+        {
+            // création d'un objet Utilisateur
+            $unId = utf8_encode($uneLigne->id);
+            $uneDateDebut = utf8_encode($uneLigne->dateDebut);
+            $uneDateFin = utf8_encode($uneLigne->dateFin);
+            $uneFin = utf8_encode($uneLigne->terminee);
+            $unIdUtilisateur = utf8_encode($uneLigne->idUtilisateur);
+            $unPseudo = utf8_encode($uneLigne->pseudo);
+            $unNbPoints = utf8_encode($uneLigne->nbPoints);
+            
+            $uneTrace = new Trace($unId, $uneDateDebut, $uneDateFin, $uneFin, $unIdUtilisateur, $unPseudo, $unNbPoints);
+            $lesAutorises[] = $uneTrace;
+            $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        }
+        $req->closeCursor();
+        
+        return $lesAutorises;
+    }
     
     
     
@@ -580,7 +631,7 @@ class DAO
         $recupAutorisant .= "WHERE niveau = 1";
         $recupAutorisant .= "AND id IN (SELECT idAutorisant FROM tracegps_autorisations WHERE idAutorise = :idUtilisateur)";
         $recupAutorisant .= "ORDER BY pseudo";
-         
+        
         $recupAutorisant .= " FROM tracegps_vue_utilisateurs";
         $recupAutorisant .= " WHERE tracegps_vue_utilisateurs.niveau = 1";
         $recupAutorisant .= " AND tracegps_vue_utilisateurs.id IN (SELECT idAutorisant FROM tracegps_autorisations WHERE idAutorise = :idUtilisateur)";
@@ -621,17 +672,17 @@ class DAO
         
         $req1->bindValue("idAutorisant", $idAutorisant, PDO::PARAM_STR);
         $req1->bindValue("idAutorise", $idAutorise, PDO::PARAM_STR);
-
+        
         
         $ok = $req1->execute();
         // sortir en cas d'échec
-        if ( ! $ok) 
-        { 
-            return false; 
+        if ( ! $ok)
+        {
+            return false;
         }
         return true;
     }
-
+    
     public function supprimerUneAutorisation($idAutorisant, $idAutorise)
     {
         $txt_req1 = "DELETE FROM tracegps_autorisations";
@@ -650,13 +701,6 @@ class DAO
         }
         return true;
     }
-
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1012,7 +1056,7 @@ class DAO
     }
     
     
-        
+    
     
     public function getToutesLesTraces()
     {
@@ -1060,7 +1104,6 @@ class DAO
         
         
     }
- 
     
     
     
@@ -1077,96 +1120,282 @@ class DAO
     
     
     
-        // --------------------------------------------------------------------------------------
-        // début de la zone attribuée au développeur 4 (delasalle-sio-burgot-m) : lignes 950 à 1150
-        // --------------------------------------------------------------------------------------
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // --------------------------------------------------------------------------------------
+    // début de la zone attribuée au développeur 4 (delasalle-sio-burgot-m) : lignes 950 à 1150
+    // --------------------------------------------------------------------------------------
+    
+    public function existeAdrMailUtilisateur($adrMail){
         
-        public function existeAdrMailUtilisateur($adrMail){
+        $recupAdrMail = "Select adrMail from tracegps_utilisateurs WHERE adrMail = :mail";
+        $req = $this->cnx->prepare($recupAdrMail);
+        $req->bindValue("mail", $adrMail, PDO::PARAM_STR);
+        // extraction des donn�es
+        $req->execute();
+        if($req->fetch()){
+            // $req->fetch() permet de lire la ligne suivante
+            // si elle vaut 'true' il y a au moins une donn�e sur cette ligne
+            // sinon si elle vaut 'false' la ligne est vide (et il n'y en a pas d'autre derri�re)
             
-            $recupAdrMail = "Select adrMail from tracegps_utilisateurs WHERE adrMail = :mail";
-            $req = $this->cnx->prepare($recupAdrMail);
-            $req->bindValue("mail", $adrMail, PDO::PARAM_STR);
-            // extraction des donn�es
-            $req->execute();
-            if($req->fetch()){
-                // $req->fetch() permet de lire la ligne suivante
-                // si elle vaut 'true' il y a au moins une donn�e sur cette ligne
-                // sinon si elle vaut 'false' la ligne est vide (et il n'y en a pas d'autre derri�re)
-                
-                return true;
-            }
-            else{
-                return false;
-            }
+            return true;
         }
-        
-        public function autoriseAConsulter($idUtilisateur,$idAutorise){
-            
-        }
-        
-        
-        
-        //M�thode permettant de supprimer une Trace quelconque
-        public function supprimerUneTrace($idTrace){
-            $supprimerTrace = "DELETE FROM tracegps_traces WHERE id LIKE :identifiantTrace";
-            $supprimerPoints = "DELETE FROM tracegps_points WHERE idTrace LIKE :identifiantTrace";
-            //Suppression de la trace
-            $reqSupprimerTrace = $this->cnx->prepare($supprimerTrace);
-            $reqSupprimerTrace->bindvalue("identifiantTrace", $idTrace, PDO::PARAM_STR);
-            
-            //Suppresion des points
-            $reqSupprimerPoints = $this->cnx->prepare($supprimerPoints);
-            $reqSupprimerPoints->bindvalue("identifiantTrace", $idTrace, PDO::PARAM_STR);
-            
-            //Ex�cution des requ�tes
-            $reqSupprimerTrace->execute();
-            $reqSupprimerPoints->execute();
-            
-            
-            //Condition de v�rification de la bien ex�cution des requ�tes
-            if ($reqSupprimerTrace && $reqSupprimerPoints){
-                return true;
-            }
-            
+        else{
             return false;
-            
-            
-            
+        }
+    }
+    
+    public function autoriseAConsulter($idUtilisateur,$idAutorise){
+        
+    }
+    
+    
+    
+    //M�thode permettant de supprimer une Trace quelconque
+    public function supprimerUneTrace($idTrace){
+        $supprimerTrace = "DELETE FROM tracegps_traces WHERE id LIKE :identifiantTrace";
+        $supprimerPoints = "DELETE FROM tracegps_points WHERE idTrace LIKE :identifiantTrace";
+        //Suppression de la trace
+        $reqSupprimerTrace = $this->cnx->prepare($supprimerTrace);
+        $reqSupprimerTrace->bindvalue("identifiantTrace", $idTrace, PDO::PARAM_STR);
+        
+        //Suppresion des points
+        $reqSupprimerPoints = $this->cnx->prepare($supprimerPoints);
+        $reqSupprimerPoints->bindvalue("identifiantTrace", $idTrace, PDO::PARAM_STR);
+        
+        //Ex�cution des requ�tes
+        $reqSupprimerTrace->execute();
+        $reqSupprimerPoints->execute();
+        
+        
+        //Condition de v�rification de la bien ex�cution des requ�tes
+        if ($reqSupprimerTrace && $reqSupprimerPoints){
+            return true;
         }
         
-        //M�thode permettant de terminer une trace qui est en cours
-        public function TermineeUneTrace($idTrace){
-            $estTermineeTrace = "UPDATE tracegps_traces SET dateFin=1 WHERE id LIKE :idTrace";
-            $reqEstTermineeTrace=$this->cnx->prepare($estTermineeTrace);
-            $reqEstTermineeTrace->bindvalue("idTrace", $idTrace, PDO::PARAM_STR);
-            $reqEstTermineeTrace->execute();
-        }
+        return false;
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+    }
+    
+    //M�thode permettant de terminer une trace qui est en cours
+    public function TermineeUneTrace($idTrace){
+        $estTermineeTrace = "UPDATE tracegps_traces SET dateFin=1 WHERE id LIKE :idTrace";
+        $reqEstTermineeTrace=$this->cnx->prepare($estTermineeTrace);
+        $reqEstTermineeTrace->bindvalue("idTrace", $idTrace, PDO::PARAM_STR);
+        $reqEstTermineeTrace->execute();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 } // fin de la classe DAO
 // ATTENTION : on ne met pas de balise de fin de script pour ne pas prendre le risque

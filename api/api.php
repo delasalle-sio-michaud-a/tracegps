@@ -5,7 +5,7 @@
 // Dernière mise à jour : 3/7/2021 par dP
 
 include_once ("rest.php");
-include_once ('../modele/DAO.class.php');
+include_once ('../DAO.class.php');
 
 class Api extends Rest
 {   
@@ -147,3 +147,4 @@ class Api extends Rest
 // Traitement de la requête HTTP
 $api = new Api;
 $api->traiterRequete();
+?>

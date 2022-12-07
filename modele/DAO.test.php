@@ -25,13 +25,10 @@ $dao = new DAO();
 echo "<h3>Test de getNiveauConnexion : </h3>";
 $niveau = $dao->getNiveauConnexion("admin", sha1("mdpadmin"));
 echo "<p>Niveau de ('admin', 'mdpadmin') : " . $niveau . "</br>";
-
 $niveau = $dao->getNiveauConnexion("europa", sha1("mdputilisateur"));
 echo "<p>Niveau de ('europa', 'mdputilisateur') : " . $niveau . "</br>";
-
 $niveau = $dao->getNiveauConnexion("europa", sha1("123456"));
 echo "<p>Niveau de ('europa', '123456') : " . $niveau . "</br>";
-
 $niveau = $dao->getNiveauConnexion("toto", sha1("mdputilisateur"));
 echo "<p>Niveau de ('toto', 'mdputilisateur') : " . $niveau . "</br>";
 */

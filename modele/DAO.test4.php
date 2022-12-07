@@ -62,21 +62,14 @@ echo "<h4>l'objet laTrace avant l'appel de la méthode terminerUneTrace : </h4>"
 echo ($laTrace->toString());
 echo ('<br>');
 // on la termine
-//$dao->terminerUneTrace($unIdTrace);
-$dao->terminerUneTrace($laTrace);
+$dao->terminerUneTrace($unIdTrace);
 // et on l'affiche à nouveau
 $laTrace = $dao->getUneTrace($unIdTrace);
 echo "<h4>l'objet laTrace après l'appel de la méthode terminerUneTrace : </h4>";
 echo ($laTrace->toString());
 echo ('<br>');
 
-// test de la méthode autoriseAConsulter ----------------------------------------------------------
-// modifié par dP le 13/8/2021
-echo "<h3>Test de autoriseAConsulter : </h3>";
-if ($dao->autoriseAConsulter(3, 8)) $autorise = "oui"; else $autorise = "non";
-echo "<p>L'utilisateur 3 autorise l'utilisateur 8 : <b>" . $autorise . "</b><br>";
-if ($dao->autoriseAConsulter(3, 2)) $autorise = "oui"; else $autorise = "non";
-echo "<p>L'utilisateur 3 autorise l'utilisateur 2 : <b>" . $autorise . "</b><br>";
+
 
 
 

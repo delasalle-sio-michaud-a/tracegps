@@ -1,4 +1,3 @@
-
 <?php
 // Projet TraceGPS - services web
 // Fichier : api/rest.php
@@ -20,8 +19,15 @@ class Rest {
 	//    $content_type : le format de la réponse ("application/json; charset=utf-8" ou "application/xml; charset=utf-8")
 	//    $donnees : les données encodées (formatées en Json ou en XML)
 	protected function envoyerReponse($code_reponse, $content_type, $donnees) {
-        $this->codeReponse = $code_reponse;       // mémorise le code de la réponse HTTP
-        $this->contentType = $content_type;       // mémorise le le format de la réponse HTTP
+        //$this->codeReponse = $code_reponse;       // mémorise le code de la réponse HTTP
+        
+		/*
+		En Java, lorsque le parseur lit une page web, il vérifie que celle-ci ne contient aucune erreur ou message
+		d’erreur. Une page ayant un code réponse différent de 200 entraînera donc l’arrêt de la lecture de cette même
+		page (ce qui provoque un plantage en Java)
+		*/ 
+		$this->codeReponse = 200;
+		$this->contentType = $content_type;       // mémorise le le format de la réponse HTTP
         $this->preparerEntetes();                 // prépare les entêtes HTTP de la réponse HTTP
         echo $donnees;                            // envoie les données dans le corps de la réponse HTTP
         exit;                                     // fin de l'exécution
@@ -123,5 +129,4 @@ class Rest {
 		return $lesEntrees;
 	}
 } // fin de la classe Rest
-
 ?>

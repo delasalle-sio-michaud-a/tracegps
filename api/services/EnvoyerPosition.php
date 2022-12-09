@@ -170,3 +170,31 @@ function creerFluxXML($msg, $unPointDeTrace)
             echo $doc->saveXML();
             return ;
         }
+        
+function creerFluxJSON($msg, $unPointDeTrace)
+        {
+            /*{
+                "data": {
+                    "reponse": "............. (message retourné par le service web) ...............",
+                    "donnees": [ ]
+            }
+            }
+            
+}*/
+            $elt_data = ["reponse" => $msg];
+            
+            if ($unPointDeTrace != null){
+                $elt_id = ["id" => $unPointDeTrace->getId()];
+            // construction de l'élément "data"
+                $elt_data = ["reponse" => $msg, "donnees" => $elt_id];
+            }
+            
+            // construction de la racine
+            $elt_racine = ["data" => $elt_data];
+            
+            // retourne le contenu JSON (l'option JSON_PRETTY_PRINT gère les sauts de ligne et l'indentation)
+            echo json_encode($elt_racine, JSON_PRETTY_PRINT);
+            return ;
+}
+            
+            
